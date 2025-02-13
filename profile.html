@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - MWSFlix</title>
+    <link rel="stylesheet" href="index_style.css">
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="profile.html" class="active">Profile</a>
+    </nav>
+
+    <main>
+        <section id="user-profile">
+            <h2>Your Profile</h2>
+            <div id="user-info">
+                <p><strong>Username:</strong> <span id="username"></span></p>
+                <p><strong>Email:</strong> <span id="user-email"></span></p>
+            </div>
+        </section>
+
+        <section id="favorites">
+            <h2>Favorites</h2>
+            <div id="favorites-list" class="movie-grid"></div>
+        </section>
+
+        <section id="watchlist">
+            <h2>Watchlist</h2>
+            <div id="watchlist-list" class="movie-grid"></div>
+        </section>
+
+        <section id="history">
+            <h2>Viewed History</h2>
+            <div id="history-list" class="movie-grid"></div>
+        </section>
+    </main>
+
+    <script src="index_script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if user is logged in
+            const userData = JSON.parse(localStorage.getItem("user"));
+            if (!userData) {
+                window.location.href = "login.html";
+            } else {
+                document.getElementById("username").textContent = userData.username;
+                document.getElementById("user-email").textContent = userData.email;
+            }
+
+            // Load user-related movies
+            loadUserMovies();
+        });
+
+        function loadUserMovies() {
+            const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+            const watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+            const history = JSON.parse(localStorage.getItem("viewed")) || [];
+
+            displayMovies(favorites, "favorites-list");
+            displayMovies(watchlist, "watchlist-list");
+            displayMovies(history, "history-list");
+        }
+
+        function displayMovies(movies, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+
+            if (movies.length === 0) {
+                container.innerHTML = "<p>No movies found.</p>";
+                return;
+            }
+
+            movies.forEach(movie => {
+                const movieCard = document.createElement("div");
+                movieCard.classList.add("movie-card");
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}">
+                    <h3>${movie.title} (${movie.year})</h3>
+                    <button onclick="removeFromList('${containerId}', '${movie.id}')">Remove</button>
+                `;
+                container.appendChild(movieCard);
+            });
+        }
+
+        function removeFromList(listType, movieId) {
+            let listName;
+            if (listType === "favorites-list") listName = "favorites";
+            else if (listType === "watchlist-list") listName = "watchlist";
+            else listName = "viewed";
+
+            let list = JSON.parse(localStorage.getItem(listName)) || [];
+            list = list.filter(movie => movie.id !== movieId);
+            localStorage.setItem(listName, JSON.stringify(list));
+            loadUserMovies();
+        }
+    </script>
+
+</body>
+
+</html>

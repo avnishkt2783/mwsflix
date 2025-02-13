@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Welcome, <span id="username"></span></h2>
+    <h3>Your Favorites</h3>
+    <ul id="favorites-list"></ul>
+
+    <h3>Your Watchlist</h3>
+    <ul id="watchlist-list"></ul>
+
+    <h3>Viewed History</h3>
+    <ul id="viewed-list"></ul>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return (window.location.href = "login.html");
+
+            const res = await fetch("/api/auth/me", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const user = await res.json();
+
+            document.getElementById("username").textContent = user.username;
+
+            const favoritesList = document.getElementById("favorites-list");
+            const watchlistList = document.getElementById("watchlist-list");
+            const viewedList = document.getElementById("viewed-list");
+
+            user.favorites.forEach((movie) => {
+                const li = document.createElement("li");
+                li.textContent = movie;
+                li.innerHTML += `<button onclick="removeFavorite('${movie}')">❌</button>`;
+                favoritesList.appendChild(li);
+            });
+
+            user.watchlist.forEach((movie) => {
+                const li = document.createElement("li");
+                li.textContent = movie;
+                li.innerHTML += `<button onclick="removeWatchlist('${movie}')">❌</button>`;
+                watchlistList.appendChild(li);
+            });
+
+            user.viewed.forEach((movie) => {
+                const li = document.createElement("li");
+                li.textContent = movie;
+                viewedList.appendChild(li);
+            });
+        });
+
+        // Remove Favorite
+        async function removeFavorite(movieId) {
+            await fetch("/api/auth/favorite", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+            location.reload();
+        }
+
+        // Remove Watchlist
+        async function removeWatchlist(movieId) {
+            await fetch("/api/auth/watchlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+            location.reload();
+        }
+
+    </script>
+</body>
+
+</html>

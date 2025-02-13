@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MWS-FLIX</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="index_style.css">
+</head>
+
+<body>
+    <div class="backdrop-container" id="backdropContainer"></div>
+
+    <div class="navbar-container p-3 m-2">
+        <nav class="navbar nav-items navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/mylogo.jpg" width="30" height="30"
+                        class="d-inline-block align-text-top rounded-circle">
+                    MWS-FLIX
+                </a>
+                <div id="authButtons">
+                    <button id="loginBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
+                        onclick="window.location.href='login.html'">Login</button>
+                    <button id="registerBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
+                        onclick="window.location.href='register.html'">Register</button>
+                    <button id="logoutBtn" class="auth-btn btn rounded-pill text-white px-4 py-2" style="display: none;"
+                        onclick="logoutUser()">Logout</button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+
+
+    <div class="d-flex justify-content-center mt-3">
+        <div class="container p-3">
+            <div class="search-container p-3 m-2 rounded-pill">
+                <div class="d-flex">
+                    <input class="form-control me-2 search-input text-white rounded-pill" type="text" id="searchInput"
+                        placeholder="Search">
+                    <button class="btn btn-success rounded-pill cloudflare-icons-search" id="searchButton">
+                        <i class="bi-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h3>Currently in Theaters</h3>
+        <div class="horizontal-scroll" id="inTheaters"></div>
+    </div>
+
+    <div class="container mt-4">
+        <h3>Popular Movies</h3>
+        <div class="horizontal-scroll" id="popularMovies"></div>
+    </div>
+
+    <div class="container mt-4">
+        <h3>Top Rated Movies</h3>
+        <div class="horizontal-scroll" id="topRatedMovies"></div>
+    </div>
+
+    <div class="container mt-4">
+        <h3>Content available from</h3>
+        <div class="marquee p-3">
+            <div class="marquee-content" id="ottLogos"></div>
+        </div>
+    </div>
+
+    <footer class="text-center footer-container p-3 m-2">
+        <div class="container">
+            <section class="footer-icons mb-4">
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-facebook cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-twitter-x cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-google cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-instagram cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-linkedin cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-github cloudflare-icons"></i></a>
+            </section>
+        </div>
+        <div
+            class="footer-container text-white text-decoration-none p-3 d-flex flex-wrap justify-content-center align-items-center gap-3">
+            <div class="p-2"> <img
+                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+                    alt="TMDB Logo" style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
+            </div>
+            <div class="p-2">
+                <img src="https://moviesapi.club/assets/images/logo.png" alt="TMDB Logo"
+                    style="height: 1.75rem; vertical-align: middle; filter: brightness(1000%);">
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        async function getUserProfile() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Not authenticated! Please log in.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/auth/me", {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById("username").innerText = data.username;
+                    document.getElementById("email").innerText = data.email;
+                } else {
+                    alert(data.message || "Failed to fetch user data");
+                    localStorage.removeItem("token");
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Something went wrong!");
+            }
+        }
+        function logout() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            alert("Logged out successfully!");
+            window.location.href = "login.html"; // Redirect to login page
+        }
+
+        document.getElementById("logoutBtn").addEventListener("click", logout);
+        function checkAuth() {
+            if (!localStorage.getItem("token")) {
+                alert("Please log in first!");
+                window.location.href = "login.html";
+            }
+        }
+
+        // Call `checkAuth()` on pages that require authentication.
+        checkAuth();
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="index_script.js"></script>
+</body>
+
+</html>

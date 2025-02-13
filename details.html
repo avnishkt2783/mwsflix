@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="details_style.css">
+</head>
+
+<body>
+    <div class="navbar-container p-3 m-2">
+        <nav class="navbar nav-items navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/mylogo.jpg" width="30" height="30"
+                        class="d-inline-block align-text-top rounded-circle">
+                    MWS-FLIX
+                </a>
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="backdrop-container" id="backdropContainer"></div>
+
+    <!-- <button id="shareMovie" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+        title="Click to copy link!">
+        Share
+    </button> -->
+
+    <div class="container mt-4">
+        <div class="details-container">
+            <img id="poster" class="poster" alt="Movie Poster">
+            <div class="details-content">
+                <h2 id="title"></h2>
+                <p><strong>Release Year:</strong> <span id="year"></span></p>
+                <p><strong>Genres:</strong> <span id="genres"></span></p>
+                <p id="overview"></p>
+                <a id="tmdbLink" class="btn details-button rounded-pill mb-2" target="_blank">
+                    <button style="border: none; background: transparent; padding: 5px; cursor: pointer;">
+                        <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
+                            alt="TMDB Logo"
+                            style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
+                    </button>
+                </a>
+
+                <button id="favorite-btn" class="btn details-button rounded-pill mb-2"><i
+                        class="bi bi-heart icon-white"></i>
+                </button>
+                <button id="watchlist-btn" class="btn details-button rounded-pill mb-2"><i
+                        class="bi bi-bookmark icon-white"></i></button>
+                <button id="share-btn" class="btn details-button rounded-pill mb-2"><i
+                        class="bi bi-share icon-white"></i>
+                </button>
+                <a id="playButton" class="btn details-button rounded-pill mb-2">
+                    <i class="bi bi-play-circle"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="extra-details">
+            <h4>Additional Information</h4>
+            <p><strong>Runtime:</strong> <span id="runtime"></span> minutes</p>
+            <p><strong>Rating:</strong> <span id="rating"></span> / 10</p>
+            <p><strong>Production Companies:</strong> <span id="production"></span></p>
+        </div>
+
+
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Cast
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Recommendations
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="text-center footer-container p-3 m-2">
+        <div class="container">
+            <section class="footer-icons mb-4">
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-facebook cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-twitter-x cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-google cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-instagram cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-linkedin cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-github cloudflare-icons"></i></a>
+            </section>
+        </div>
+        <div
+            class="footer-container text-white text-decoration-none p-3 d-flex flex-wrap justify-content-center align-items-center gap-3">
+            <div class="p-2"> <img
+                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+                    alt="TMDB Logo" style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
+            </div>
+            <div class="p-2">
+                <img src="https://moviesapi.club/assets/images/logo.png" alt="TMDB Logo"
+                    style="height: 1.75rem; vertical-align: middle; filter: brightness(1000%);">
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const movieId = new URLSearchParams(window.location.search).get("id");
+            const favoriteBtn = document.getElementById("favorite-btn");
+            const watchlistBtn = document.getElementById("watchlist-btn");
+            const shareBtn = document.getElementById("share-btn");
+            const playBtn = document.getElementById("playButton");
+            const token = localStorage.getItem("token");
+
+            if (!favoriteBtn || !watchlistBtn || !playBtn || !shareBtn) return; // Prevent errors if elements are missing
+
+            if (!token) {
+                favoriteBtn.disabled = true;
+                watchlistBtn.disabled = true;
+                playBtn.disabled = true;
+                return;
+            }
+
+            // ✅ Fetch User's Data on Page Load
+            async function fetchUserData() {
+                try {
+                    const res = await fetch("http://localhost:5000/api/auth/user", {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    if (!res.ok) return;
+                    const user = await res.json();
+
+                    // Toggle heart icon based on favorites
+                    if (user.favorites.includes(movieId)) {
+                        favoriteBtn.firstElementChild.classList.replace("bi-heart", "bi-heart-fill");
+                    }
+
+                    // Toggle bookmark icon based on watchlist
+                    if (user.watchlist.includes(movieId)) {
+                        watchlistBtn.firstElementChild.classList.replace("bi-bookmark", "bi-bookmark-fill");
+                    }
+                } catch (error) {
+                    console.error("Error fetching user:", error);
+                }
+            }
+
+            await fetchUserData();
+
+            // ✅ Toggle Favorite
+            favoriteBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch("http://localhost:5000/api/auth/favorite", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ movieId }),
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        const icon = favoriteBtn.firstElementChild;
+                        if (data.favorites.includes(movieId)) {
+                            icon.classList.replace("bi-heart", "bi-heart-fill");
+                        } else {
+                            icon.classList.replace("bi-heart-fill", "bi-heart");
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error updating favorites:", error);
+                }
+            });
+
+            // ✅ Toggle Watchlist
+            watchlistBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch("http://localhost:5000/api/auth/watchlist", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ movieId }),
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        const icon = watchlistBtn.firstElementChild;
+                        if (data.watchlist.includes(movieId)) {
+                            icon.classList.replace("bi-bookmark", "bi-bookmark-fill");
+                        } else {
+                            icon.classList.replace("bi-bookmark-fill", "bi-bookmark");
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error updating watchlist:", error);
+                }
+            });
+
+            // ✅ Save to Viewed History when playing
+            playBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch("http://localhost:5000/api/auth/viewed", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ movieId }),
+                    });
+
+                    if (res.ok) {
+                        console.log("Movie added to viewed history");
+                    }
+                } catch (error) {
+                    console.error("Error adding to viewed history:", error);
+                }
+            });
+
+            // ✅ Share Button
+            shareBtn.addEventListener("click", async () => {
+                const movieLink = window.location.href;
+                try {
+                    await navigator.clipboard.writeText(movieLink);
+                    alert("✅ Link copied to clipboard!");
+                } catch (err) {
+                    alert("❌ Failed to copy link. Try manually copying.");
+                }
+            });
+        });
+
+        // document.getElementById("shareMovie").addEventListener("click", function () {
+        //     const movieId = new URLSearchParams(window.location.search).get("id");
+        //     const shareLink = `${window.location.origin}/details.html?id=${movieId}`;
+
+        //     navigator.clipboard.writeText(shareLink).then(() => {
+        //         this.setAttribute("title", "Copied!");
+        //         new bootstrap.Tooltip(this).show();
+        //         setTimeout(() => this.setAttribute("title", "Click to copy link!"), 2000);
+        //     }).catch(err => {
+        //         console.error("Failed to copy:", err);
+        //     });
+        // });
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="details_script.js"></script>
+</body>
+
+</html>

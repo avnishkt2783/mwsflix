@@ -1,0 +1,138 @@
+body {
+    background-color: black;
+    color: white;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.backdrop-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.backdrop-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(40%) blur(5px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.active-backdrop {
+    opacity: 1 !important;
+}
+
+.movie-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.movie-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.poster {
+    width: 100px;
+    height: 150px;
+    border-radius: 1.5rem;
+    object-fit: cover;
+}
+
+.play-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+}
+
+.search-container,
+.navbar-container,
+.nav-items,
+.footer-icons,
+.footer-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    text-align: center;
+}
+
+.search-input {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    box-shadow: none;
+}
+
+#searchresultfor {
+    font-size: 1rem;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+}
+
+.bi {
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+}
+
+.bi:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons {
+    color: #ababab;
+    box-shadow: #ababab;
+}
+
+.cloudflare-icons:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search:hover {
+    color: #ffffff;
+}
+
+.pagination-button,
+.details-button {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.pagination-button:hover,
+.details-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

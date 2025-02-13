@@ -1,0 +1,172 @@
+body {
+    background-color: black;
+    color: white;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.backdrop-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.backdrop-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(30%) blur(5px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.active-backdrop {
+    opacity: 1 !important;
+}
+
+.details-container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    padding: 50px 20px;
+    border-radius: 1.5rem;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+}
+
+.poster {
+    max-width: 300px;
+    border-radius: 1.5rem;
+}
+
+.details-content {
+    max-width: 600px;
+}
+
+.extra-details {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.accordion,.accordion-item {
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(10px);
+}
+
+.accordion-button {
+    margin-top: 20px;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+
+}
+
+.accordion-button::after {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: auto;
+    content: "";
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    transform: rotate(-180deg);
+
+}
+
+.accordion-flush .accordion-item .accordion-button {
+    border-radius: 1.5rem;
+}
+
+.footer-icons,
+.footer-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    text-align: center;
+}
+
+.bi {
+    font-size: 1.5rem;
+    color: rgb(160, 160, 160);
+}
+
+.bi:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons {
+    color: #ababab;
+    box-shadow: #ababab;
+}
+
+.cloudflare-icons:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search:hover {
+    color: #ffffff;
+}
+
+.pagination-button,
+.details-button {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.pagination-button:hover,
+.details-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.bi-play-circle {
+    color: white;
+}
+
+.search-container,
+.navbar-container,
+.nav-items,
+.footer-icons,
+.footer-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    text-align: center;
+}
+
+.auth-btn{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+.auth-btn:hover{ 
+    background: rgba(255, 255, 255, 0.2);
+}
+.icon-white{
+    color: white;
+}
