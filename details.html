@@ -159,7 +159,7 @@
             // ✅ Fetch User's Data on Page Load
             async function fetchUserData() {
                 try {
-                    const res = await fetch("http://localhost:5000/api/auth/user", {
+                    const res = await fetch("https://mwsflix.onrender.com/api/auth/user", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -189,7 +189,7 @@
             // ✅ Toggle Favorite
             favoriteBtn.addEventListener("click", async () => {
                 try {
-                    const res = await fetch("http://localhost:5000/api/auth/favorite", {
+                    const res = await fetch("https://mwsflix.onrender.com/api/auth/favorite", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -215,7 +215,7 @@
             // ✅ Toggle Watchlist
             watchlistBtn.addEventListener("click", async () => {
                 try {
-                    const res = await fetch("http://localhost:5000/api/auth/watchlist", {
+                    const res = await fetch("https://mwsflix.onrender.com/api/auth/watchlist", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -241,7 +241,7 @@
             // ✅ Save to Viewed History when playing
             playBtn.addEventListener("click", async () => {
                 try {
-                    const res = await fetch("http://localhost:5000/api/auth/viewed", {
+                    const res = await fetch("https://mwsflix.onrender.com/api/auth/viewed", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
