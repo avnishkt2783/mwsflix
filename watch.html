@@ -7,6 +7,9 @@
 
     <!-- csp meta script and ad block? -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://w1.moviesapi.club; script-src 'self' https://code.jquery.com">
+
 
     <title>Watch Movie</title>
 
@@ -14,28 +17,46 @@
 </head>
 
 <body>
-
     <iframe id="movieFrame" allowfullscreen></iframe>
 
     <script>
-        // Prevents the script from executing unwanted functions
+        // 🚀 Disable DevTools Detector
         window.devtoolsDetector = {
             addListener: function () { },  // Disable detection
             launch: function () { }        // Prevent execution
         };
+
+        // 🚀 Blocked Scripts List (Add More if Needed)
         const blockedScripts = [
-            "devtools-detector.js",  // Blocking DevTools Detector
-            "crypto-js.min.js"       // Example: Blocking Crypto.js
+            "devtools-detector.js",  // Blocks DevTools Detector
+            "crypto-js.min.js",      // Blocks Crypto.js (Example)
+            "googletagmanager",      // Blocks Google Analytics
+            "disable-devtool",       // Blocks Anti-DevTools Script
+            "moviesapi.club",        // Blocks scripts from the movies API
+            "tophtitled"             // Blocks other injected scripts
         ];
 
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
+        // 🚀 Function to Remove Unwanted Scripts
+        function removeUnwantedScripts() {
+            document.querySelectorAll("script").forEach(script => {
+                blockedScripts.forEach(blocked => {
+                    if (script.src.includes(blocked) || script.innerText.includes(blocked)) {
+                        console.log(`🛑 Blocking script: ${script.src || "Inline Script"}`);
+                        script.remove();
+                    }
+                });
+            });
+        }
+
+        // 🚀 MutationObserver to Block Dynamically Added Scripts
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
                     if (node.tagName === "SCRIPT") {
-                        blockedScripts.forEach((blocked) => {
+                        blockedScripts.forEach(blocked => {
                             if (node.src.includes(blocked)) {
-                                console.log(`Blocking script: ${blocked}`);
-                                node.remove(); // Prevent execution
+                                console.log(`🛑 Blocking script: ${node.src}`);
+                                node.remove();
                             }
                         });
                     }
@@ -43,18 +64,23 @@
             });
         });
 
-        // Start observing the <head> and <body> for added scripts
+        // 🚀 Observe the <head> and <body> for new script elements
         observer.observe(document.documentElement, { childList: true, subtree: true });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // Remove external scripts dynamically
-            document.querySelectorAll("script").forEach(script => {
-                if (script.src.includes("googletagmanager") || script.src.includes("tophtitled") || script.src.includes("moviesapi")) {
-                    script.remove();
-                }
-            });
-        });
+        // 🚀 Remove Already Loaded Scripts
+        document.addEventListener("DOMContentLoaded", removeUnwantedScripts);
 
+        // 🚀 Prevent Inline Script Execution
+        (function () {
+            const originalSetAttribute = Element.prototype.setAttribute;
+            Element.prototype.setAttribute = function (name, value) {
+                if (name === "onerror" || name === "onclick" || name === "onload") {
+                    console.log(`🛑 Blocking inline event: ${name}`);
+                    return;
+                }
+                originalSetAttribute.apply(this, arguments);
+            };
+        })();
     </script>
 
     <script src="watch_script.js"></script>
