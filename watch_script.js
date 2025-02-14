@@ -84,7 +84,8 @@ if (!window.scriptObserverInitialized) {
 
 // Load the movie frame
 if (movieId) {
-    document.getElementById("movieFrame").src = `https://moviesapi.club/movie/${movieId}`;
+    document.getElementById("movieFrame").src = `https://w1.moviesapi.club/movie/${movieId}`;
+
 } else {
     document.body.innerHTML = "<h2 style='color: white; text-align: center;'>Invalid Movie ID</h2>";
 }
