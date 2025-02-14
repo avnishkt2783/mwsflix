@@ -20,6 +20,34 @@
     <script src="watch_script.js"></script>
 </body>
 <script>
+    // Prevents the script from executing unwanted functions
+    window.devtoolsDetector = {
+        addListener: function () { },  // Disable detection
+        launch: function () { }        // Prevent execution
+    };
+    const blockedScripts = [
+        "devtools-detector.js",  // Blocking DevTools Detector
+        "crypto-js.min.js"       // Example: Blocking Crypto.js
+    ];
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.tagName === "SCRIPT") {
+                    blockedScripts.forEach((blocked) => {
+                        if (node.src.includes(blocked)) {
+                            console.log(`Blocking script: ${blocked}`);
+                            node.remove(); // Prevent execution
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    // Start observing the <head> and <body> for added scripts
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
     document.addEventListener("DOMContentLoaded", () => {
         // Remove external scripts dynamically
         document.querySelectorAll("script").forEach(script => {
