@@ -7,8 +7,14 @@
 
     <!-- csp meta script and ad block? -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https://w1.moviesapi.club; script-src 'self' https://code.jquery.com">
+    <!-- <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://w1.moviesapi.club; script-src 'self' https://code.jquery.com"> -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https://w1.moviesapi.club; 
+        script-src 'self' 'unsafe-inline' https://code.jquery.com; 
+        frame-src 'self' https://moviesapi.club https://w1.moviesapi.club;
+    ">
+
 
 
     <title>Watch Movie</title>
@@ -17,7 +23,9 @@
 </head>
 
 <body>
-    <iframe id="movieFrame" allowfullscreen></iframe>
+    <!-- <iframe id="movieFrame" allowfullscreen></iframe> -->
+    <iframe id="movieFrame" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+
 
     <script>
         // 🚀 Disable DevTools Detector
