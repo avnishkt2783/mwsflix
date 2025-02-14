@@ -55,8 +55,8 @@ const blockedScripts = [
     "devtools-detector.js",
     "pako.min.js",
     "sweetalert2.js",
-    "sweetalert2_theme-dark.min.css",
-    "playerjs_skin2_20.0.3.js"
+    "sweetalert2_theme-dark.min.css"
+    // "playerjs_skin2_20.0.3.js"
 ];
 
 const observer = new MutationObserver((mutations) => {
