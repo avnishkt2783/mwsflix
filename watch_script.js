@@ -40,7 +40,6 @@
 // });
 
 
-
 const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get("id");
 let movieName = urlParams.get("title");
@@ -49,33 +48,39 @@ movieName = movieName ? decodeURIComponent(movieName.replace(/\+/g, " ")) : "Unk
 
 document.title = `Watch - ${movieName}`;
 
-const blockedScripts = [
-    "jquery-3.6.0.min.js",
-    "crypto-js.min.js",
-    "devtools-detector.js",
-    "pako.min.js",
-    "sweetalert2.js",
-    "sweetalert2_theme-dark.min.css"
-    // "playerjs_skin2_20.0.3.js"
-];
+// Ensure blockedScripts is only defined once
+if (typeof window.blockedScripts === "undefined") {
+    window.blockedScripts = [
+        "jquery-3.6.0.min.js",
+        "crypto-js.min.js",
+        "devtools-detector.js",
+        "pako.min.js",
+        "sweetalert2.js",
+        "sweetalert2_theme-dark.min.css",
+        "playerjs_skin2_20.0.3.js"
+    ];
+}
 
-const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-            if (node.tagName === "SCRIPT" || node.tagName === "LINK") {
-                blockedScripts.forEach((blocked) => {
-                    if (node.src?.includes(blocked) || node.href?.includes(blocked)) {
-                        console.log(`Blocking script: ${blocked}`);
-                        node.remove();
-                    }
-                });
-            }
+// MutationObserver to block scripts dynamically
+if (!window.scriptObserverInitialized) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.tagName === "SCRIPT" || node.tagName === "LINK") {
+                    window.blockedScripts.forEach((blocked) => {
+                        if (node.src?.includes(blocked) || node.href?.includes(blocked)) {
+                            console.log(`Blocking script: ${blocked}`);
+                            node.remove();
+                        }
+                    });
+                }
+            });
         });
     });
-});
 
-// Observe the entire document for script injection
-observer.observe(document.documentElement, { childList: true, subtree: true });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    window.scriptObserverInitialized = true; // Prevent multiple observers
+}
 
 // Load the movie frame
 if (movieId) {
