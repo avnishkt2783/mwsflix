@@ -22,7 +22,7 @@ document.getElementById("searchInput").addEventListener("keypress", function (ev
 
 async function fetchMovies(category, containerId) {
     // const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&language=en-US&page=1`;
-    const url = `https://api.themoviedb.org/3/${category}?api_key=${apiKey}&page=1`;
+    let url = `https://api.themoviedb.org/3/${category}?api_key=${apiKey}&page=1`;
     if (category === "discover/movie") {
         url = `https://api.themoviedb.org/3/${category}?api_key=${apiKey}&with_original_language=hi&sort_by=popularity.desc&page=1`;
     }
