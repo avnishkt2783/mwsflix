@@ -4,94 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- csp meta script and ad block? -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
-    <!-- <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https://w1.moviesapi.club; script-src 'self' https://code.jquery.com"> -->
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self' https://w1.moviesapi.club; 
-        script-src 'self' 'unsafe-inline' https://code.jquery.com; 
-        frame-src 'self' https://moviesapi.club https://w1.moviesapi.club;
-    ">
-
-
-
     <title>Watch Movie</title>
 
     <link rel="stylesheet" href="watch_style.css">
 </head>
 
 <body>
-    <!-- <iframe id="movieFrame" allowfullscreen></iframe> -->
-    <!-- <iframe id="movieFrame" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe> -->
-    <iframe id="movieFrame" allowfullscreen referrerpolicy="no-referrer"></iframe>
-
-
-
-    <script>
-        // 🚀 Disable DevTools Detector
-        window.devtoolsDetector = {
-            addListener: function () { },  // Disable detection
-            launch: function () { }        // Prevent execution
-        };
-
-        // 🚀 Blocked Scripts List (Add More if Needed)
-        const blockedScripts = [
-            "devtools-detector.js",  // Blocks DevTools Detector
-            "crypto-js.min.js",      // Blocks Crypto.js (Example)
-            "googletagmanager",      // Blocks Google Analytics
-            "disable-devtool",       // Blocks Anti-DevTools Script
-            "moviesapi.club",        // Blocks scripts from the movies API
-            "tophtitled"             // Blocks other injected scripts
-        ];
-
-        // 🚀 Function to Remove Unwanted Scripts
-        function removeUnwantedScripts() {
-            document.querySelectorAll("script").forEach(script => {
-                blockedScripts.forEach(blocked => {
-                    if (script.src.includes(blocked) || script.innerText.includes(blocked)) {
-                        console.log(`🛑 Blocking script: ${script.src || "Inline Script"}`);
-                        script.remove();
-                    }
-                });
-            });
-        }
-
-        // 🚀 MutationObserver to Block Dynamically Added Scripts
-        const observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
-                mutation.addedNodes.forEach(node => {
-                    if (node.tagName === "SCRIPT") {
-                        blockedScripts.forEach(blocked => {
-                            if (node.src.includes(blocked)) {
-                                console.log(`🛑 Blocking script: ${node.src}`);
-                                node.remove();
-                            }
-                        });
-                    }
-                });
-            });
-        });
-
-        // 🚀 Observe the <head> and <body> for new script elements
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-
-        // 🚀 Remove Already Loaded Scripts
-        document.addEventListener("DOMContentLoaded", removeUnwantedScripts);
-
-        // 🚀 Prevent Inline Script Execution
-        (function () {
-            const originalSetAttribute = Element.prototype.setAttribute;
-            Element.prototype.setAttribute = function (name, value) {
-                if (name === "onerror" || name === "onclick" || name === "onload") {
-                    console.log(`🛑 Blocking inline event: ${name}`);
-                    return;
-                }
-                originalSetAttribute.apply(this, arguments);
-            };
-        })();
-    </script>
+    <iframe id="movieFrame" allowfullscreen></iframe>
 
     <script src="watch_script.js"></script>
 </body>
