@@ -22,7 +22,10 @@ document.getElementById("searchInput").addEventListener("keypress", function (ev
 
 async function fetchMovies(category, containerId) {
     // const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&language=en-US&page=1`;
-    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&page=1`;
+    const url = `https://api.themoviedb.org/3/${category}?api_key=${apiKey}&page=1`;
+    if (category === "discover/movie") {
+        url = `https://api.themoviedb.org/3/${category}?api_key=${apiKey}&with_original_language=hi&sort_by=popularity.desc&page=1`;
+    }
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -114,9 +117,10 @@ async function fetchOTTProviders() {
     }
 }
 
-fetchMovies("now_playing", "inTheaters");
-fetchMovies("popular", "popularMovies");
-fetchMovies("top_rated", "topRatedMovies");
+fetchMovies("movies/now_playing", "inTheaters");
+fetchMovies("discover/movie","popularMoviesHindi");
+fetchMovies("movies/popular", "popularMovies");
+fetchMovies("movies/top_rated", "topRatedMovies");
 fetchOTTProviders();
 
 document.addEventListener("DOMContentLoaded", function () {
