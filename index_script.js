@@ -21,7 +21,8 @@ document.getElementById("searchInput").addEventListener("keypress", function (ev
 });
 
 async function fetchMovies(category, containerId) {
-    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&language=en-US&page=1`;
+    // const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&language=en-US&page=1`;
+    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&page=1`;
     try {
         const response = await fetch(url);
         const data = await response.json();
