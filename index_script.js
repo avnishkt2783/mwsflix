@@ -117,10 +117,10 @@ async function fetchOTTProviders() {
     }
 }
 
-fetchMovies("movies/now_playing", "inTheaters");
+fetchMovies("movie/now_playing", "inTheaters");
 fetchMovies("discover/movie","popularMoviesHindi");
-fetchMovies("movies/popular", "popularMovies");
-fetchMovies("movies/top_rated", "topRatedMovies");
+fetchMovies("movie/popular", "popularMovies");
+fetchMovies("movie/top_rated", "topRatedMovies");
 fetchOTTProviders();
 
 document.addEventListener("DOMContentLoaded", function () {
