@@ -2,20 +2,252 @@
 <html lang="en">
 
 <head>
-    <title>Register</title>
-    <script defer src="js/auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - MWS-FLIX</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body {
+            --sb-track-color: rgba(0, 0, 0, 0);
+            --sb-thumb-color: rgba(255, 255, 255, 0.5);
+            --sb-size: 0.5rem;
+        }
+
+        body::-webkit-scrollbar {
+            width: var(--sb-size)
+        }
+
+        body::-webkit-scrollbar-track {
+            background: var(--sb-track-color);
+            border-radius: 1.5rem;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: var(--sb-thumb-color);
+            border-radius: 1.5rem;
+
+        }
+
+        @supports not selector(::-webkit-scrollbar) {
+            body {
+                scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+            }
+        }
+
+        .navbar-container,
+        .nav-items,
+        .footer-icons,
+        .footer-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 1.5rem;
+            text-align: center;
+
+            width: 100%;
+            /* max-width: 400px; */
+        }
+
+        .auth-input {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+
+            width: 100%;
+            padding: 10px;
+            border-radius: 1.5rem;
+        }
+
+        .auth-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .auth-input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            box-shadow: none;
+        }
+
+        .auth-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .password-container {
+            position: relative;
+            /* display: flex;
+                align-items: center; */
+
+            /* width: 100%; */
+        }
+
+        .password-container input {
+            /* flex: 1; */
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: white;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+            /* padding: 20px; */
+        }
+
+        .bi {
+            font-size: 1.5rem;
+            color: rgb(0, 0, 0);
+        }
+
+        .bi:hover {
+            color: #ffffff;
+        }
+
+        .cloudflare-icons {
+            color: #ababab;
+            box-shadow: #ababab;
+        }
+
+        .cloudflare-icons:hover {
+            color: #ffffff;
+        }
+
+        .cloudflare-icons-search {
+            color: #ffffff;
+        }
+
+        .cloudflare-icons-search:hover {
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Register</h2>
+    <div class="navbar-container p-3 m-2">
+        <nav class="navbar nav-items navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/mylogo.jpg" width="30" height="30"
+                        class="d-inline-block align-text-top rounded-circle">
+                    MWS-FLIX
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="login-container p-1 mx-4">
+        <div class="auth-container p-4">
+            <h2 class="text-center mb-4">Register</h2>
+            <form id="registerForm">
+                <div class="mb-3">
+                    <input type="text" id="username" class="text-white form-control auth-input" placeholder="Username"
+                        required />
+                </div>
+                <div class="mb-3">
+                    <input type="email" id="email" class="text-white form-control auth-input" placeholder="E-mail"
+                        required />
+                </div>
+                <div class="mb-3 password-container">
+                    <input type="password" id="password" class="text-white form-control auth-input"
+                        placeholder="Password" required>
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        <i class="bi bi-eye cloudflare-icons"></i>
+                    </button>
+                </div>
+                <button type="submit" class="auth-btn btn m-2 p-3 text-white">Register</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="login-container p-1 mx-4">
+        <div class="auth-container p-4">
+            <div class="text-center mt-3 ">
+                <h5 class="text-center mb-4">Already Registered?</h5>
+                <a href="login.html"><button class="auth-btn btn p-3 text-white">Login</button></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- <h2>Register</h2>
     <form id="registerForm">
         <input type="text" id="username" placeholder="Username" required />
         <input type="email" id="email" placeholder="Email" required />
         <input type="password" id="password" placeholder="Password" required />
         <button type="submit">Signup</button>
     </form>
-    Already Registered? <a href="login.html">Login Here</a>
+    Already Registered? <a href="login.html">Login Here</a> -->
+    <footer class="text-center footer-container p-3 m-2">
+        <div class="container">
+            <section class="footer-icons mb-4">
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-facebook cloudflare-icons"></i></a>
 
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-twitter-x cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-google cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-instagram cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-linkedin cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-github cloudflare-icons"></i></a>
+            </section>
+        </div>
+        <div
+            class="footer-container text-white text-decoration-none p-3 d-flex flex-wrap justify-content-center align-items-center gap-3">
+            <div class="p-2"> <img
+                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+                    alt="TMDB Logo" style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
+            </div>
+            <div class="p-2">
+                <img src="https://moviesapi.club/assets/images/logo.png" alt="TMDB Logo"
+                    style="height: 1.75rem; vertical-align: middle; filter: brightness(1000%);">
+            </div>
+
+        </div>
+    </footer>
     <script>
         document.getElementById("registerForm").addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -44,7 +276,25 @@
             }
         });
 
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            let passwordField = document.getElementById("password");
+            let icon = this.querySelector("i");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            }
+        });
+
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="index_script.js"></script> -->
 
 </body>
 
