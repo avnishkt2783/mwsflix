@@ -11,37 +11,32 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="index_style.css">
     <style>
-        .greet-text-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px;
-            border-radius: 1.5rem;
-            text-align: center;
-
-            width: 100%;
-            /* max-width: 400px; */
+        body {
+            background: #111;
+            color: white;
         }
 
+        /* Greet Container */
         .greet-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            /* height: 100vh; */
-            /* padding: 20px; */
+            height: 60vh;
+            padding: 20px;
         }
 
-        .scroll-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            padding: 10px;
-            white-space: nowrap;
-            scrollbar-width: thin;
+        .greet-text-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 1.5rem;
+            text-align: center;
+            width: 100%;
         }
 
+        /* Movie Card Style */
         .movie-card {
             flex: 0 0 auto;
-            /* width: 180px; */
             border-radius: 1.5rem;
             overflow: hidden;
             transition: transform 0.3s, background 0.3s;
@@ -53,7 +48,6 @@
             display: inline-block;
             width: 180px;
             margin: 10px;
-            cursor: pointer;
             position: relative;
         }
 
@@ -62,14 +56,7 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .remove-btn {
-            background: none;
-            border: none;
-            color: red;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
+        /* Title and Image Hover */
         .movie-img-container {
             position: relative;
             width: 100%;
@@ -120,12 +107,38 @@
             cursor: pointer;
             font-size: 16px;
         }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 10px;
+            white-space: nowrap;
+            scrollbar-width: thin;
+        }
+
+        .navbar-container {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .auth-btn {
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
-    <div class="backdrop-container" id="backdropContainer"></div>
-
+    <!-- Navbar -->
     <div class="navbar-container p-3 m-2">
         <nav class="navbar nav-items navbar-dark">
             <div class="container-fluid">
@@ -151,6 +164,7 @@
         </nav>
     </div>
 
+    <!-- Greeting Section -->
     <div class="greet-container p-1 mx-4">
         <div class="greet-text-container p-4">
             <div class="text-center mt-3">
@@ -208,14 +222,14 @@
                     movieCard.classList.add("movie-card");
 
                     movieCard.innerHTML = `
-                <div class="movie-item" style="position: relative;">
-                    <div class="movie-img-container">
-                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="movie-poster">
-                    </div>
-                    <div class="movie-title">${movie.title}</div>
-                    <button class="remove-btn" onclick="${removeFunction}('${movieId}')">❌</button>
-                </div>
-            `;
+                        <div class="movie-item" style="position: relative;">
+                            <div class="movie-img-container">
+                                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="movie-poster">
+                            </div>
+                            <div class="movie-title">${movie.title}</div>
+                            <button class="remove-btn" onclick="${removeFunction}('${movieId}')">❌</button>
+                        </div>
+                    `;
 
                     // Set backdrop on hover
                     movieCard.addEventListener("mouseenter", () => {
