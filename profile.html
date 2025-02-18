@@ -11,6 +11,25 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="index_style.css">
     <style>
+        .greet-text-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 1.5rem;
+            text-align: center;
+
+            width: 100%;
+            /* max-width: 400px; */
+        }
+
+        .greet-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+            /* padding: 20px; */
+        }
+
         .scroll-container {
             display: flex;
             overflow-x: auto;
@@ -31,6 +50,11 @@
             cursor: pointer;
             text-align: center;
             padding: 10px;
+            display: inline-block;
+            width: 180px;
+            margin: 10px;
+            cursor: pointer;
+            position: relative;
         }
 
         .movie-card:hover {
@@ -44,6 +68,57 @@
             color: red;
             font-size: 1.2rem;
             cursor: pointer;
+        }
+
+        .movie-img-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .movie-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .movie-img-container:hover .movie-hover {
+            opacity: 1;
+        }
+
+        .movie-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.8);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -118,32 +193,38 @@
             const watchlistList = document.getElementById("watchlist-list");
             const viewedList = document.getElementById("viewed-list");
 
-            user.favorites.forEach((movie) => {
-                const div = document.createElement("div");
-                div.classList.add("movie-card");
-                div.innerHTML = `
-                    <p>${movie}</p>
-                    <button class="remove-btn" onclick="removeFavorite('${movie}')">❌</button>
-                `;
-                favoritesList.appendChild(div);
-            });
+            const tmdbApiKey = "a28bda684eca7826525d86acdbc4edea"; // Replace with your TMDb API Key
+            const tmdbBaseUrl = "https://api.themoviedb.org/3/movie/";
 
-            user.watchlist.forEach((movie) => {
-                const div = document.createElement("div");
-                div.classList.add("movie-card");
-                div.innerHTML = `
-                    <p>${movie}</p>
-                    <button class="remove-btn" onclick="removeWatchlist('${movie}')">❌</button>
-                `;
-                watchlistList.appendChild(div);
-            });
+            async function fetchMovieDetails(movieId) {
+                const response = await fetch(`${tmdbBaseUrl}${movieId}?api_key=${tmdbApiKey}`);
+                return response.json();
+            }
 
-            user.viewed.forEach((movie) => {
-                const div = document.createElement("div");
-                div.classList.add("movie-card");
-                div.innerHTML = `<p>${movie}</p>`;
-                viewedList.appendChild(div);
-            });
+            async function displayMovies(movieIds, container, removeFunction) {
+                for (const movieId of movieIds) {
+                    const movie = await fetchMovieDetails(movieId);
+                    const movieCard = document.createElement("div");
+                    movieCard.classList.add("movie-card");
+
+                    movieCard.innerHTML = `
+                <div class="movie-item" style="position: relative;">
+                    <div class="movie-img-container">
+                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="movie-poster">
+                        <div class="movie-hover" style="background-image: url('https://image.tmdb.org/t/p/w500${movie.backdrop_path}');"></div>
+                    </div>
+                    <div class="movie-title">${movie.title}</div>
+                    <button class="remove-btn" onclick="${removeFunction}('${movieId}')">❌</button>
+                </div>
+            `;
+
+                    container.appendChild(movieCard);
+                }
+            }
+
+            await displayMovies(user.favorites, favoritesList, "removeFavorite");
+            await displayMovies(user.watchlist, watchlistList, "removeWatchlist");
+            await displayMovies(user.viewed, viewedList, "removeViewed");
         });
 
         // Remove Favorite
@@ -171,6 +252,20 @@
             });
             location.reload();
         }
+
+        // Remove Viewed
+        async function removeViewed(movieId) {
+            await fetch("/api/auth/viewed", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+            location.reload();
+        }
+
     </script>
 
 </body>
