@@ -4,99 +4,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - MWSFlix</title>
+    <title>My Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="index_style.css">
+    <style>
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 10px;
+            white-space: nowrap;
+            scrollbar-width: thin;
+        }
+
+        .movie-card {
+            flex: 0 0 auto;
+            width: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, background 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="backdrop-container" id="backdropContainer"></div>
 
-    <nav id="navbar">
-        <a href="index.html">Home</a>
-        <a href="profile.html" class="active">Profile</a>
-    </nav>
-
-    <main>
-        <section id="user-profile">
-            <h2>Your Profile</h2>
-            <div id="user-info">
-                <p><strong>Username:</strong> <span id="username"></span></p>
-                <p><strong>Email:</strong> <span id="user-email"></span></p>
+    <div class="navbar-container p-3 m-2">
+        <nav class="navbar nav-items navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/mylogo.jpg" width="30" height="30"
+                        class="d-inline-block align-text-top rounded-circle">
+                    MWS-FLIX
+                </a>
+                <div id="authButtons" class="d-flex align-items-center gap-2">
+                    <button id="loginBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
+                        onclick="window.location.href='login.html'">Login</button>
+                    <button id="registerBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
+                        onclick="window.location.href='register.html'">Register</button>
+                    <button id="logoutBtn" class="auth-btn btn rounded-pill text-white px-4 py-2" style="display: none;"
+                        onclick="logoutUser()">Logout</button>
+                    <button id="profileBtn"
+                        class="auth-btn btn rounded-pill text-white d-inline-flex align-items-center justify-content-center"
+                        onclick="window.location.href='profile.html'" style="height: 2.5rem; width: 2.5rem;">
+                        <i class="bi bi-person cloudflare-icons" style="font-size: 1.2rem;"></i>
+                    </button>
+                </div>
             </div>
-        </section>
+        </nav>
+    </div>
 
-        <section id="favorites">
-            <h2>Favorites</h2>
-            <div id="favorites-list" class="movie-grid"></div>
-        </section>
+    <div class="greet-container p-1 mx-4">
+        <div class="greet-text-container p-4">
+            <div class="text-center mt-3">
+                <h2 class="text-center mb-4">Welcome, <span id="username">username</span></h2>
+            </div>
+        </div>
+    </div>
 
-        <section id="watchlist">
-            <h2>Watchlist</h2>
-            <div id="watchlist-list" class="movie-grid"></div>
-        </section>
+    <!-- Favorites Section -->
+    <div class="container mt-4">
+        <h3 class="mb-2">Your Favorites</h3>
+        <div id="favorites-list" class="scroll-container"></div>
+    </div>
 
-        <section id="history">
-            <h2>Viewed History</h2>
-            <div id="history-list" class="movie-grid"></div>
-        </section>
-    </main>
+    <!-- Watchlist Section -->
+    <div class="container mt-4">
+        <h3 class="mb-2">Your Watchlist</h3>
+        <div id="watchlist-list" class="scroll-container"></div>
+    </div>
 
-    <script src="index_script.js"></script>
+    <!-- Viewed History Section -->
+    <div class="container mt-4">
+        <h3 class="mb-2">Viewed History</h3>
+        <div id="viewed-list" class="scroll-container"></div>
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Check if user is logged in
-            const userData = JSON.parse(localStorage.getItem("user"));
-            if (!userData) {
-                window.location.href = "login.html";
-            } else {
-                document.getElementById("username").textContent = userData.username;
-                document.getElementById("user-email").textContent = userData.email;
-            }
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return (window.location.href = "login.html");
 
-            // Load user-related movies
-            loadUserMovies();
+            const res = await fetch("/api/auth/me", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const user = await res.json();
+
+            document.getElementById("username").textContent = user.username;
+
+            const favoritesList = document.getElementById("favorites-list");
+            const watchlistList = document.getElementById("watchlist-list");
+            const viewedList = document.getElementById("viewed-list");
+
+            user.favorites.forEach((movie) => {
+                const div = document.createElement("div");
+                div.classList.add("movie-card");
+                div.innerHTML = `
+                    <p>${movie}</p>
+                    <button class="remove-btn" onclick="removeFavorite('${movie}')">❌</button>
+                `;
+                favoritesList.appendChild(div);
+            });
+
+            user.watchlist.forEach((movie) => {
+                const div = document.createElement("div");
+                div.classList.add("movie-card");
+                div.innerHTML = `
+                    <p>${movie}</p>
+                    <button class="remove-btn" onclick="removeWatchlist('${movie}')">❌</button>
+                `;
+                watchlistList.appendChild(div);
+            });
+
+            user.viewed.forEach((movie) => {
+                const div = document.createElement("div");
+                div.classList.add("movie-card");
+                div.innerHTML = `<p>${movie}</p>`;
+                viewedList.appendChild(div);
+            });
         });
 
-        function loadUserMovies() {
-            const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-            const watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-            const history = JSON.parse(localStorage.getItem("viewed")) || [];
-
-            displayMovies(favorites, "favorites-list");
-            displayMovies(watchlist, "watchlist-list");
-            displayMovies(history, "history-list");
-        }
-
-        function displayMovies(movies, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = "";
-
-            if (movies.length === 0) {
-                container.innerHTML = "<p>No movies found.</p>";
-                return;
-            }
-
-            movies.forEach(movie => {
-                const movieCard = document.createElement("div");
-                movieCard.classList.add("movie-card");
-                movieCard.innerHTML = `
-                    <img src="${movie.poster}" alt="${movie.title}">
-                    <h3>${movie.title} (${movie.year})</h3>
-                    <button onclick="removeFromList('${containerId}', '${movie.id}')">Remove</button>
-                `;
-                container.appendChild(movieCard);
+        // Remove Favorite
+        async function removeFavorite(movieId) {
+            await fetch("/api/auth/favorite", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ movieId }),
             });
+            location.reload();
         }
 
-        function removeFromList(listType, movieId) {
-            let listName;
-            if (listType === "favorites-list") listName = "favorites";
-            else if (listType === "watchlist-list") listName = "watchlist";
-            else listName = "viewed";
-
-            let list = JSON.parse(localStorage.getItem(listName)) || [];
-            list = list.filter(movie => movie.id !== movieId);
-            localStorage.setItem(listName, JSON.stringify(list));
-            loadUserMovies();
+        // Remove Watchlist
+        async function removeWatchlist(movieId) {
+            await fetch("/api/auth/watchlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+            location.reload();
         }
     </script>
 

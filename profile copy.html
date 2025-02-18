@@ -4,11 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="index_style.css">
+    <style>
+        .greet-text-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 1.5rem;
+            text-align: center;
+
+            width: 100%;
+            /* max-width: 400px; */
+        }
+
+        .greet-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+            /* padding: 20px; */
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Welcome, <span id="username"></span></h2>
+    <div class="backdrop-container" id="backdropContainer"></div>
+
+    <div class="navbar-container p-3 m-2">
+        <nav class="navbar nav-items navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/mylogo.jpg" width="30" height="30"
+                        class="d-inline-block align-text-top rounded-circle">
+                    MWS-FLIX
+                </a>
+                <div id="authButtons" class="d-flex align-items-center gap-2">
+                    <button id="loginBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
+                        onclick="window.location.href='login.html'">Login</button>
+                    <button id="registerBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
+                        onclick="window.location.href='register.html'">Register</button>
+                    <button id="logoutBtn" class="auth-btn btn rounded-pill text-white px-4 py-2" style="display: none;"
+                        onclick="logoutUser()">Logout</button>
+                    <button id="profileBtn"
+                        class="auth-btn btn rounded-pill text-white d-inline-flex align-items-center justify-content-center"
+                        onclick="window.location.href='profile.html'" style="height: 2.5rem; width: 2.5rem;">
+                        <i class="bi bi-person cloudflare-icons" style="font-size: 1.2rem;"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="greet-container p-1 mx-4">
+        <div class="greet-text-container p-4">
+            <div class="text-center mt-3 ">
+                <h2 class="text-center mb-4">Welcome, <span id="username">username</span></h2>
+                <!-- <h5 class="text-center mb-4">New Here?</h5> -->
+                <!-- <a href="register.html"><button class="auth-btn btn p-3 text-white">Register</button></a> -->
+            </div>
+        </div>
+    </div>
+
     <h3>Your Favorites</h3>
     <ul id="favorites-list"></ul>
 
@@ -20,7 +80,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             const token = localStorage.getItem("token");
-            if (!token) return (window.location.href = "login.html");
+            // if (!token) return (window.location.href = "login.html");
 
             const res = await fetch("/api/auth/me", {
                 headers: { Authorization: `Bearer ${token}` },
