@@ -291,6 +291,69 @@
             location.reload();
         }
 
+        async function getUserProfile() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Not authenticated! Please log in.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/auth/me", {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById("username").innerText = data.username;
+                    document.getElementById("email").innerText = data.email;
+                } else {
+                    alert(data.message || "Failed to fetch user data");
+                    localStorage.removeItem("token");
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Something went wrong!");
+            }
+        }
+        function logout() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            alert("Logged out successfully!");
+            window.location.href = "login.html"; // Redirect to login page
+        }
+
+        document.getElementById("logoutBtn").addEventListener("click", logout);
+        function checkAuth() {
+            if (!localStorage.getItem("token")) {
+                alert("Please log in first!");
+                window.location.href = "login.html";
+            }
+        }
+
+        // Call `checkAuth()` on pages that require authentication.
+        // checkAuth();
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const token = localStorage.getItem("token"); // Retrieve JWT token
+
+            if (token) {
+                document.getElementById("loginBtn").style.display = "none";
+                document.getElementById("registerBtn").style.display = "none";
+                document.getElementById("logoutBtn").style.display = "block";
+            } else {
+                document.getElementById("logoutBtn").style.display = "none";
+            }
+        });
+
+        function logoutUser() {
+            localStorage.removeItem("token");
+            window.location.reload(); // Refresh to update UI
+        }
     </script>
 
 </body>

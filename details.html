@@ -296,6 +296,24 @@
         // });
 
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const token = localStorage.getItem("token"); // Retrieve JWT token
+
+            if (token) {
+                document.getElementById("loginBtn").style.display = "none";
+                document.getElementById("registerBtn").style.display = "none";
+                document.getElementById("logoutBtn").style.display = "block";
+            } else {
+                document.getElementById("logoutBtn").style.display = "none";
+            }
+        });
+
+        function logoutUser() {
+            localStorage.removeItem("token");
+            window.location.reload(); // Refresh to update UI
+        }
+
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="details_script.js"></script>
