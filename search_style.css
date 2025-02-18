@@ -136,3 +136,14 @@ body {
 .details-button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+.auth-btn{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+.auth-btn:hover{ 
+    background: rgba(255, 255, 255, 0.2);
+}
+.icon-white{
+    color: white;
+}
