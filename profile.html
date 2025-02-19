@@ -11,10 +11,12 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="index_style.css">
     <style>
-        body {
-            background: #111;
-            color: white;
-        }
+        /* body {
+            background-color: black;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+        } */
 
         /* Greet Container */
         .greet-container {
@@ -35,7 +37,7 @@
         }
 
         /* Movie Card Style */
-        .movie-card {
+        /* .movie-card {
             flex: 0 0 auto;
             border-radius: 1.5rem;
             overflow: hidden;
@@ -54,10 +56,10 @@
         .movie-card:hover {
             transform: scale(1.05);
             background: rgba(255, 255, 255, 0.2);
-        }
+        } */
 
         /* Title and Image Hover */
-        .movie-img-container {
+        /* .movie-img-container {
             position: relative;
             width: 100%;
             height: 250px;
@@ -92,7 +94,7 @@
             font-size: 14px;
             font-weight: bold;
             margin-top: 5px;
-        }
+        } */
 
         .remove-btn {
             position: absolute;
@@ -108,7 +110,7 @@
             font-size: 16px;
         }
 
-        .scroll-container {
+        /* .scroll-container {
             display: flex;
             overflow-x: auto;
             gap: 1rem;
@@ -128,12 +130,12 @@
 
         .navbar-brand {
             font-size: 1.5rem;
-            font-weight: bold;
-        }
+            /* font-weight: bold; */
 
-        .auth-btn {
-            font-weight: bold;
-        }
+
+        /* .auth-btn { */
+        /* font-weight: bold; */
+        /* }  */
     </style>
 </head>
 
@@ -191,10 +193,46 @@
         <div id="viewed-list" class="scroll-container"></div>
     </div>
 
+    <footer class="text-center footer-container p-3 m-2">
+        <div class="container">
+            <section class="footer-icons mb-4">
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-facebook cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-twitter-x cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-google cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-instagram cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-linkedin cloudflare-icons"></i></a>
+
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="bi bi-github cloudflare-icons"></i></a>
+            </section>
+        </div>
+        <div
+            class="footer-container text-white text-decoration-none p-3 d-flex flex-wrap justify-content-center align-items-center gap-3">
+            <div class="p-2"> <img
+                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+                    alt="TMDB Logo" style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
+            </div>
+            <div class="p-2">
+                <img src="https://moviesapi.club/assets/images/logo.png" alt="TMDB Logo"
+                    style="height: 1.75rem; vertical-align: middle; filter: brightness(1000%);">
+            </div>
+
+        </div>
+    </footer>
+
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             const token = localStorage.getItem("token");
-            if (!token) return (window.location.href = "login.html");
+            // if (!token) return (window.location.href = "login.html");
 
             const res = await fetch("/api/auth/me", {
                 headers: { Authorization: `Bearer ${token}` },
