@@ -354,6 +354,49 @@
             localStorage.removeItem("token");
             window.location.reload(); // Refresh to update UI
         }
+
+
+        function isTokenExpired(token) {
+            try {
+                const decoded = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+                const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+                return decoded.exp < currentTime; // Check if token is expired
+            } catch (error) {
+                console.error("Error decoding token:", error);
+                return true; // Assume expired if decoding fails
+            }
+        }
+
+        // Function to handle logout on token expiration
+        function handleExpiredToken() {
+            alert("Session expired. Please log in again.");
+            localStorage.removeItem("token"); // Remove token
+            window.location.href = "login.html"; // Redirect to login page
+        }
+
+        // Check token expiration before making API requests
+        function secureFetch(url, options = {}) {
+            const token = localStorage.getItem("token");
+
+            if (!token || isTokenExpired(token)) {
+                handleExpiredToken();
+                return Promise.reject("Token expired");
+            }
+
+            // Attach Authorization header
+            options.headers = {
+                ...options.headers,
+                Authorization: `Bearer ${token}`,
+            };
+
+            return fetch(url, options).then(response => {
+                if (response.status === 401) { // Handle unauthorized response
+                    handleExpiredToken();
+                    return Promise.reject("Unauthorized");
+                }
+                return response.json();
+            });
+        }
     </script>
 
 </body>
