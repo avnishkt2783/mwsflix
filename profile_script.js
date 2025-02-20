@@ -8,7 +8,7 @@ let backdropImages = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
-    // if (!token) return (window.location.href = "login.html");
+    if (!token) return (window.location.href = "login.html");
 
     const res = await fetch("/api/auth/me", {
         headers: { Authorization: `Bearer ${token}` },

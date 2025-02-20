@@ -162,7 +162,7 @@
             const play_btn = document.getElementById("play-btn");
             const token = localStorage.getItem("token");
 
-            if (!favoriteBtn || !watchlistBtn || !play - btn || !shareBtn) return; // Prevent errors if elements are missing
+            if (!favoriteBtn || !watchlistBtn || !play_btn || !shareBtn) return; // Prevent errors if elements are missing
 
             if (!token) {
                 favoriteBtn.disabled = true;
@@ -255,7 +255,7 @@
             });
 
             // ✅ Save to Viewed History when playing
-            play - btn.addEventListener("click", async () => {
+            play_btn.addEventListener("click", async () => {
                 try {
                     const res = await fetch("https://mwsflix.onrender.com/api/auth/viewed", {
                         method: "POST",
