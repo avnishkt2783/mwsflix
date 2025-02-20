@@ -274,16 +274,43 @@
                 }
             });
 
+            // // ✅ Share Button
+            // shareBtn.addEventListener("click", async () => {
+            //     const movieLink = window.location.href;
+            //     try {
+            //         await navigator.clipboard.writeText(movieLink);
+            //         alert("✅ Link copied to clipboard!");
+            //     } catch (err) {
+            //         alert("❌ Failed to copy link. Try manually copying.");
+            //     }
+            // });
+
             // ✅ Share Button
             shareBtn.addEventListener("click", async () => {
                 const movieLink = window.location.href;
-                try {
-                    await navigator.clipboard.writeText(movieLink);
-                    alert("✅ Link copied to clipboard!");
-                } catch (err) {
-                    alert("❌ Failed to copy link. Try manually copying.");
+                const movieTitle = document.title; // Get the page title as the movie title
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: movieTitle,
+                            text: `Check out this movie: ${movieTitle}`,
+                            url: movieLink,
+                        });
+                        console.log("✅ Movie link shared successfully!");
+                    } catch (err) {
+                        console.error("❌ Error sharing:", err);
+                    }
+                } else {
+                    try {
+                        await navigator.clipboard.writeText(movieLink);
+                        alert("✅ Link copied to clipboard!");
+                    } catch (err) {
+                        alert("❌ Failed to copy link. Try manually copying.");
+                    }
                 }
             });
+
         });
 
         // document.getElementById("shareMovie").addEventListener("click", function () {
