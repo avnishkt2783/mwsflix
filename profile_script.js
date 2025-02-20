@@ -49,11 +49,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Set backdrop on hover
             movieCard.addEventListener("mouseenter", () => {
-                document.body.style.backgroundImage = `url('${backdropBaseURL}${movie.backdrop_path}')`;
-                document.body.style.backgroundSize = "cover";
-                document.body.style.backgroundPosition = "center";
-                document.body.style.backgroundRepeat = "no-repeat";
-                document.body.style.transition = "opacity 0.5s ease-in-out";
+                // document.body.style.backgroundImage = `url('${backdropBaseURL}${movie.backdrop_path}')`;
+                // document.body.style.backgroundSize = "cover";
+                // document.body.style.backgroundPosition = "center";
+                // document.body.style.backgroundRepeat = "no-repeat";
+                // document.body.style.transition = "opacity 0.5s ease-in-out";
+                const backdropContainer = document.getElementById("backdropContainer");
+                backdropContainer.innerHTML = `<img src="${backdropBaseURL}${movie.backdrop_path}" class="backdrop-image fade-in-backdrop active-backdrop">`;
             });
             
 
