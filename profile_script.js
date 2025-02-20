@@ -42,8 +42,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <img src="${imageBaseURL}${movie.poster_path}" alt="${movie.title}">
                     </div>
                     <h6 class="mt-3 text-white">${movie.title}</h6>
-                    <button class="remove-btn" onclick="${removeFunction}('${movieId}')">❌</button>
+                    
                     </a>
+                    <button class="remove-btn" onclick="${removeFunction}('${movieId}')">
+                    <i class="bi bi-x-circle-fill"></i>
+                </button>
                 </div>
             `;
 
