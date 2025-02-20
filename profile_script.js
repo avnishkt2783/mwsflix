@@ -55,7 +55,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // document.body.style.backgroundRepeat = "no-repeat";
                 // document.body.style.transition = "opacity 0.5s ease-in-out";
                 const backdropContainer = document.getElementById("backdropContainer");
-                backdropContainer.innerHTML = `<img src="${backdropBaseURL}${movie.backdrop_path}" class="backdrop-image fade-in-backdrop active-backdrop">`;
+                const newBackdrop = document.createElement("img");
+                newBackdrop.src = `${backdropBaseURL}${movie.backdrop_path}`;
+                newBackdrop.classList.add("backdrop-image", "fade-in-backdrop");
+
+                backdropContainer.appendChild(newBackdrop);
+                setTimeout(() => newBackdrop.classList.add("active-backdrop"), 10);
+                // backdropContainer.innerHTML = `<img src="${backdropBaseURL}${movie.backdrop_path}" class="backdrop-image fade-in-backdrop active-backdrop">`;
             });
             
 
