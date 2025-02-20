@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     async function displayMovies(movieIds, container, removeFunction) {
-        for (const movieId of movieIds) {
+        for (const movieId of movieIds.reverse()) {
             const movie = await fetchMovieDetails(movieId);
             const movieCard = document.createElement("div");
             movieCard.classList.add("movie-card");
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     
                     </a>
                     <button class="remove-btn" onclick="${removeFunction}('${movieId}')">
-                    <i class="bi bi-x-circle-fill"></i>
+                    <i class="bi-x-circle-fill"></i>
                 </button>
                 </div>
             `;
