@@ -37,11 +37,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             movieCard.innerHTML = `
                 <div class="movie-item" style="position: relative;">
-                    <div class="movie-img-container">
-                        <img src="${imageBaseURL}${movie.poster_path}" class="movie-poster">
+                <a href="details.html?id=${movieId}" class="text-decoration-none">    
+                <div class="movie-img-container">
+                        <img src="${imageBaseURL}${movie.poster_path}" alt="${movie.title}">
                     </div>
-                    <div class="movie-title">${movie.title}</div>
+                    <h6 class="mt-3 text-white">${movie.title}</h6>
                     <button class="remove-btn" onclick="${removeFunction}('${movieId}')">❌</button>
+                    </a>
                 </div>
             `;
 
@@ -50,8 +52,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 document.body.style.backgroundImage = `url('${backdropBaseURL}${movie.backdrop_path}')`;
                 document.body.style.backgroundSize = "cover";
                 document.body.style.backgroundPosition = "center";
+                document.body.style.backgroundRepeat = "no-repeat";
                 document.body.style.transition = "background-image 0.5s ease-in-out";
             });
+            
 
             // movieCard.addEventListener("mouseleave", () => {
             //     document.body.style.backgroundImage = "";

@@ -23,7 +23,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 60vh;
+            /* height: 60vh; */
             padding: 20px;
         }
 
@@ -136,6 +136,23 @@
         /* .auth-btn { */
         /* font-weight: bold; */
         /* }  */
+
+        #backdropContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(40%) blur(5px);
+            /* opacity: 0; */
+            /* Initially hidden */
+            transition: opacity 0.5s ease-in-out;
+            z-index: -1;
+            /* Send behind other content */
+        }
     </style>
 </head>
 

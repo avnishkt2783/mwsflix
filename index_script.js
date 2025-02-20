@@ -78,15 +78,15 @@ function changeBackdrop(category, index) {
         newBackdrop.src = backdrop.url;
         newBackdrop.classList.add("backdrop-image", "fade-in-backdrop");
 
-        const existingBackdrop = document.querySelector(".backdrop-image.active-backdrop");
-        if (existingBackdrop) {
-            existingBackdrop.classList.remove("active-backdrop");
-            existingBackdrop.classList.add("fade-out-backdrop");
+        // const existingBackdrop = document.querySelector(".backdrop-image.active-backdrop");
+        // if (existingBackdrop) {
+        //     existingBackdrop.classList.remove("active-backdrop");
+        //     existingBackdrop.classList.add("fade-out-backdrop");
 
-            setTimeout(() => {
-                existingBackdrop.remove();
-            }, 500);
-        }
+        //     setTimeout(() => {
+        //         existingBackdrop.remove();
+        //     }, 500);
+        // }
 
         backdropContainer.appendChild(newBackdrop);
         setTimeout(() => newBackdrop.classList.add("active-backdrop"), 10);
