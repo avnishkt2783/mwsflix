@@ -57,7 +57,7 @@ function displayMovies(movies) {
 
     movies.forEach((movie, index) => {
         const backdrop = document.createElement("img");
-        backdrop.src = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+        backdrop.src = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
         backdrop.classList.add("backdrop-image");
         if (index === 0) backdrop.classList.add("active-backdrop");
         backdropContainer.appendChild(backdrop);
