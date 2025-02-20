@@ -69,9 +69,12 @@
                 <button id="share-btn" class="btn details-button rounded-pill mb-2"><i
                         class="bi bi-share icon-white"></i>
                 </button>
-                <a id="playButton" class="btn details-button rounded-pill mb-2">
-                    <i class="bi bi-play-circle"></i>
-                </a>
+                <button id="play-btn" class="btn details-button rounded-pill mb-2">
+                    <a id="playButton">
+                        <i class="bi bi-play-circle icon-white"></i>
+                    </a>
+                </button>
+
             </div>
         </div>
 
@@ -156,15 +159,16 @@
             const favoriteBtn = document.getElementById("favorite-btn");
             const watchlistBtn = document.getElementById("watchlist-btn");
             const shareBtn = document.getElementById("share-btn");
-            const playBtn = document.getElementById("playButton");
+            const play_btn = document.getElementById("play-btn");
             const token = localStorage.getItem("token");
 
-            if (!favoriteBtn || !watchlistBtn || !playBtn || !shareBtn) return; // Prevent errors if elements are missing
+            if (!favoriteBtn || !watchlistBtn || !play - btn || !shareBtn) return; // Prevent errors if elements are missing
 
             if (!token) {
                 favoriteBtn.disabled = true;
                 watchlistBtn.disabled = true;
-                playBtn.disabled = true;
+                shareBtn.disabled = true;
+                play_btn.disabled = true;
                 return;
             }
 
@@ -251,7 +255,7 @@
             });
 
             // ✅ Save to Viewed History when playing
-            playBtn.addEventListener("click", async () => {
+            play - btn.addEventListener("click", async () => {
                 try {
                     const res = await fetch("https://mwsflix.onrender.com/api/auth/viewed", {
                         method: "POST",
