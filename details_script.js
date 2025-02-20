@@ -45,7 +45,7 @@ function displayBackdrops(backdrops) {
     backdropImages = backdrops
         .filter(b => b.file_path)
         .slice(0, 5)
-        .map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
+        .map(b => `https://image.tmdb.org/t/p/w1280${b.file_path}`);
 
     if (backdropImages.length > 0) {
         backdropImages.forEach((imgSrc, index) => {
