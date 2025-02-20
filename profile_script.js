@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 document.body.style.backgroundSize = "cover";
                 document.body.style.backgroundPosition = "center";
                 document.body.style.backgroundRepeat = "no-repeat";
-                document.body.style.transition = "background-image 0.5s ease-in-out";
+                document.body.style.transition = "opacity 0.5s ease-in-out";
             });
             
 
