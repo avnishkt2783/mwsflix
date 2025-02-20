@@ -123,6 +123,8 @@ fetchMovies("movie/popular", "popularMovies");
 fetchMovies("movie/top_rated", "topRatedMovies");
 fetchOTTProviders();
 
+
+// JWT TOKEN VERIFY
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token"); // Retrieve JWT token
 
