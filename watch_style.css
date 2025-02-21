@@ -4,15 +4,50 @@ html {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scroll */
     background-color: black;
+
+    /* Scrollbar Variables */
+    --sb-track-color: rgba(0, 0, 0, 0);
+    --sb-thumb-color: rgba(255, 255, 255, 0.5);
+    --sb-size: 0.5rem;
 }
 
+/* Apply styles to the vertical scrollbar */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: var(--sb-size); /* Vertical scrollbar width */
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 1.5rem;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 1.5rem;
+}
+
+/* Ensure Firefox support */
+@supports not selector(::-webkit-scrollbar) {
+    html,
+    body {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    }
+}
+
+/* Ensure iframe doesn't interfere with scrolling */
 iframe {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: 100vh; /* Ensure it takes full viewport height */
     border: none;
 }
-.icon-white{
+
+.icon-white {
     color: white;
 }

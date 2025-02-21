@@ -27,6 +27,7 @@ async function fetchMovieDetails() {
 
 function displayMovieDetails(movie) {
     document.getElementById("title").textContent = movie.title;
+    document.title = movie.title;
     document.getElementById("year").textContent = movie.release_date ? movie.release_date.split("-")[0] : "N/A";
     document.getElementById("genres").textContent = movie.genres.map(genre => genre.name).join(", ");
     document.getElementById("overview").textContent = movie.overview || "No overview available.";
