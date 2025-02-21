@@ -123,6 +123,25 @@ router.post("/viewed", auth, async (req, res) => {
   }
 });
 
+router.delete("/viewed/:movieId", auth, async (req, res) => {
+  try {
+    const { movieId } = req.params;
+    const user = await User.findById(req.user.id);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Remove movie from viewed history
+    user.viewed = user.viewed.filter(id => id !== movieId);
+    await user.save();
+
+    res.json({ message: "Movie removed from viewed history", viewed: user.viewed });
+  } catch (err) {
+    console.error("Error in DELETE /viewed route:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 router.get("/user", auth, async (req, res) => {
 
   try {
