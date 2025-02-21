@@ -120,6 +120,19 @@ async function removeViewed(movieId) {
     location.reload();
 }
 
+// Remove a movie from Viewed History
+async function removeViewedHistory(movieId) {
+    await fetch(`/api/auth/viewed/${movieId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    });
+    location.reload(); // Refresh the page after deletion
+}
+
+
 
 
 // JWT TOKEN VERIFY

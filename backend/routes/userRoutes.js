@@ -78,4 +78,17 @@ router.get("/watchlist", auth, async (req, res) => {
   }
 });
 
+// ✅ Remove a specific movie from Viewed History
+router.delete("/viewed/:movieId", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    user.viewedHistory = user.viewedHistory.filter((id) => id !== req.params.movieId);
+    await user.save();
+    res.json({ message: "Movie removed from viewed history", viewedHistory: user.viewedHistory });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 module.exports = router;
