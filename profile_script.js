@@ -35,6 +35,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             const movieCard = document.createElement("div");
             movieCard.classList.add("movie-card");
 
+            // ✅ Assign a unique ID for the viewed history movie card
+            if (container.id === "viewed-list") {
+                movieCard.id = `viewed-${movieId}`;
+            }
+
             movieCard.innerHTML = `
                 <div class="movie-item" style="position: relative;">
                 <a href="details.html?id=${movieId}" class="text-decoration-none">    
@@ -44,11 +49,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <h6 class="mt-3 text-white">${movie.title}</h6>
                     
                     </a>
-                    <button class="remove-btn" onclick="${removeFunction}('${movieId}')">
+                    <button class="remove-btn" onclick="${container.id === 'viewed-list' ? 'removeViewedHistory' : removeFunction}('${movieId}')">
                     <i class="bi-x-circle-fill"></i>
                 </button>
                 </div>
             `;
+
+            // add if statement that adds the id and onclick event to the remove button for viewed history
 
             // Set backdrop on hover
             movieCard.addEventListener("mouseenter", () => {
@@ -120,17 +127,29 @@ async function removeViewed(movieId) {
     location.reload();
 }
 
-// Remove a movie from Viewed History
+// ✅ Remove a movie from Viewed History
 async function removeViewedHistory(movieId) {
-    await fetch(`/api/auth/viewed/${movieId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-    });
-    location.reload(); // Refresh the page after deletion
+    try {
+        const response = await fetch(`/api/auth/viewed/${movieId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to remove movie");
+        }
+
+        // ✅ Remove the movie card from the UI without full reload
+        document.getElementById(`viewed-${movieId}`).remove();
+
+    } catch (error) {
+        console.error("Error removing viewed movie:", error);
+    }
 }
+
 
 
 

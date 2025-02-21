@@ -82,13 +82,19 @@ router.get("/watchlist", auth, async (req, res) => {
 router.delete("/viewed/:movieId", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    user.viewedHistory = user.viewedHistory.filter((id) => id !== req.params.movieId);
+
+    // ✅ Ensure user exists
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    // ✅ Remove only the selected movie from viewed history
+    const movieIdToRemove = req.params.movieId;
+    user.viewed = user.viewed.filter((id) => id !== movieIdToRemove);
+
     await user.save();
-    res.json({ message: "Movie removed from viewed history", viewedHistory: user.viewedHistory });
+    res.json({ message: "Movie removed from viewed history", viewed: user.viewed });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 module.exports = router;
