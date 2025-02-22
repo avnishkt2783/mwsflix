@@ -1,10 +1,8 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const User = require("../models/User");
-
 const router = express.Router();
 
-// ✅ Add to Favorites
 router.post("/favorites", auth, async (req, res) => {
   const { movieId } = req.body;
   try {
@@ -19,7 +17,6 @@ router.post("/favorites", auth, async (req, res) => {
   }
 });
 
-// ✅ Remove from Favorites
 router.delete("/favorites/:movieId", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -31,7 +28,6 @@ router.delete("/favorites/:movieId", auth, async (req, res) => {
   }
 });
 
-// ✅ Get Favorites List
 router.get("/favorites", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -41,7 +37,6 @@ router.get("/favorites", auth, async (req, res) => {
   }
 });
 
-// ✅ Add to Watchlist
 router.post("/watchlist", auth, async (req, res) => {
   const { movieId } = req.body;
   try {
@@ -56,7 +51,6 @@ router.post("/watchlist", auth, async (req, res) => {
   }
 });
 
-// ✅ Remove from Watchlist
 router.delete("/watchlist/:movieId", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -68,7 +62,6 @@ router.delete("/watchlist/:movieId", auth, async (req, res) => {
   }
 });
 
-// ✅ Get Watchlist
 router.get("/watchlist", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -78,15 +71,12 @@ router.get("/watchlist", auth, async (req, res) => {
   }
 });
 
-// ✅ Remove a specific movie from Viewed History
 router.delete("/viewed/:movieId", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
-    // ✅ Ensure user exists
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    // ✅ Remove only the selected movie from viewed history
     const movieIdToRemove = req.params.movieId;
     user.viewed = user.viewed.filter((id) => id !== movieIdToRemove);
 

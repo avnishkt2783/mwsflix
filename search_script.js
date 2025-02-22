@@ -5,6 +5,66 @@ let currentQuery = "";
 const movieResults = document.getElementById("movieResults");
 const backdropContainer = document.getElementById("backdropContainer");
 
+async function getUserProfile() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Not authenticated! Please log in.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/auth/me", {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            document.getElementById("username").innerText = data.username;
+            document.getElementById("email").innerText = data.email;
+        } else {
+            alert(data.message || "Failed to fetch user data");
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+    }
+}
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+
+document.getElementById("logoutBtn").addEventListener("click", logout);
+function checkAuth() {
+    if (!localStorage.getItem("token")) {
+        alert("Please log in first!");
+        window.location.href = "login.html";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("registerBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "block";
+    } else {
+        document.getElementById("logoutBtn").style.display = "none";
+    }
+});
+
+function logoutUser() {
+    localStorage.removeItem("token");
+    window.location.reload();
+}
+
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
@@ -142,23 +202,21 @@ document.getElementById("prevPage").addEventListener("click", function () {
 
 function isTokenExpired(token) {
     try {
-        const decoded = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-        const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
-        return decoded.exp < currentTime; // Check if token is expired
+        const decoded = JSON.parse(atob(token.split(".")[1]));
+        const currentTime = Math.floor(Date.now() / 1000); 
+        return decoded.exp < currentTime; 
     } catch (error) {
         console.error("Error decoding token:", error);
-        return true; // Assume expired if decoding fails
+        return true; 
     }
 }
 
-// Function to handle logout on token expiration
 function handleExpiredToken() {
     alert("Session expired. Please log in again.");
-    localStorage.removeItem("token"); // Remove token
-    window.location.href = "login.html"; // Redirect to login page
+    localStorage.removeItem("token"); 
+    window.location.href = "login.html"; 
 }
 
-// Check token expiration before making API requests
 function secureFetch(url, options = {}) {
     const token = localStorage.getItem("token");
 
@@ -167,14 +225,13 @@ function secureFetch(url, options = {}) {
         return Promise.reject("Token expired");
     }
 
-    // Attach Authorization header
     options.headers = {
         ...options.headers,
         Authorization: `Bearer ${token}`,
     };
 
     return fetch(url, options).then(response => {
-        if (response.status === 401) { // Handle unauthorized response
+        if (response.status === 401) { 
             handleExpiredToken();
             return Promise.reject("Unauthorized");
         }

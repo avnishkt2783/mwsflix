@@ -6,8 +6,6 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-
-// REGISTER USER
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -25,8 +23,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// LOGIN USER
-// LOGIN USER
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -39,8 +35,6 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
-    console.log("Generated Token:", token); // Debugging line
-
     res.json({ 
       token, 
       user: { id: user._id, username: user.username, email: user.email }
@@ -50,8 +44,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
-// GET LOGGED-IN USER
 router.get("/me", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -70,9 +62,9 @@ router.post("/favorite", auth, async (req, res) => {
 
     const index = user.favorites.indexOf(movieId);
     if (index === -1) {
-      user.favorites.push(movieId);  // Add to favorites
+      user.favorites.push(movieId);
     } else {
-      user.favorites.splice(index, 1);  // Remove from favorites
+      user.favorites.splice(index, 1);  
     }
     
     await user.save();
@@ -82,7 +74,6 @@ router.post("/favorite", auth, async (req, res) => {
   }
 });
 
-// Toggle Watchlist
 router.post("/watchlist", auth, async (req, res) => {
   try {
     const { movieId } = req.body;
@@ -92,9 +83,9 @@ router.post("/watchlist", auth, async (req, res) => {
 
     const index = user.watchlist.indexOf(movieId);
     if (index === -1) {
-      user.watchlist.push(movieId);  // Add to watchlist
+      user.watchlist.push(movieId); 
     } else {
-      user.watchlist.splice(index, 1);  // Remove from watchlist
+      user.watchlist.splice(index, 1);  
     }
     
     await user.save();
@@ -104,7 +95,6 @@ router.post("/watchlist", auth, async (req, res) => {
   }
 });
 
-// Add to Viewed History
 router.post("/viewed", auth, async (req, res) => {
   try {
     const { movieId } = req.body;
@@ -113,7 +103,7 @@ router.post("/viewed", auth, async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     if (!user.viewed.includes(movieId)) {
-      user.viewed.push(movieId);  // Add to viewed history
+      user.viewed.push(movieId);  
       await user.save();
     }
 
@@ -130,7 +120,6 @@ router.delete("/viewed/:movieId", auth, async (req, res) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Remove movie from viewed history
     user.viewed = user.viewed.filter(id => id !== movieId);
     await user.save();
 
@@ -143,7 +132,6 @@ router.delete("/viewed/:movieId", auth, async (req, res) => {
 
 
 router.get("/user", auth, async (req, res) => {
-
   try {
       const user = await User.findById(req.user.id);
       if (!user) return res.status(404).json({ message: "User not found" });
@@ -153,7 +141,4 @@ router.get("/user", auth, async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
-

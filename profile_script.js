@@ -6,6 +6,50 @@ const backdropBaseURL = "https://image.tmdb.org/t/p/w1280";
 const backdropContainer = document.getElementById("backdropContainer");
 let backdropImages = [];
 
+async function getUserProfile() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Not authenticated! Please log in.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/auth/me", {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            document.getElementById("username").innerText = data.username;
+            document.getElementById("email").innerText = data.email;
+        } else {
+            alert(data.message || "Failed to fetch user data");
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+    }
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+
+document.getElementById("logoutBtn").addEventListener("click", logout);
+function checkAuth() {
+    if (!localStorage.getItem("token")) {
+        alert("Please log in first!");
+        window.location.href = "login.html";
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     if (!token) return (window.location.href = "login.html");
@@ -21,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const watchlistList = document.getElementById("watchlist-list");
     const viewedList = document.getElementById("viewed-list");
 
-    const tmdbApiKey = "a28bda684eca7826525d86acdbc4edea"; // Replace with your TMDb API Key
+    const tmdbApiKey = "a28bda684eca7826525d86acdbc4edea"; 
     const tmdbBaseUrl = "https://api.themoviedb.org/3/movie/";
 
     async function fetchMovieDetails(movieId) {
@@ -35,7 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             const movieCard = document.createElement("div");
             movieCard.classList.add("movie-card");
 
-            // ✅ Assign a unique ID for the viewed history movie card
             if (container.id === "viewed-list") {
                 movieCard.id = `viewed-${movieId}`;
             }
@@ -55,15 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
             `;
 
-            // add if statement that adds the id and onclick event to the remove button for viewed history
-
-            // Set backdrop on hover
             movieCard.addEventListener("mouseenter", () => {
-                // document.body.style.backgroundImage = `url('${backdropBaseURL}${movie.backdrop_path}')`;
-                // document.body.style.backgroundSize = "cover";
-                // document.body.style.backgroundPosition = "center";
-                // document.body.style.backgroundRepeat = "no-repeat";
-                // document.body.style.transition = "opacity 0.5s ease-in-out";
                 const backdropContainer = document.getElementById("backdropContainer");
                 const newBackdrop = document.createElement("img");
                 newBackdrop.src = `${backdropBaseURL}${movie.backdrop_path}`;
@@ -71,14 +106,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 backdropContainer.appendChild(newBackdrop);
                 setTimeout(() => newBackdrop.classList.add("active-backdrop"), 10);
-                // backdropContainer.innerHTML = `<img src="${backdropBaseURL}${movie.backdrop_path}" class="backdrop-image fade-in-backdrop active-backdrop">`;
             });
             
-
-            // movieCard.addEventListener("mouseleave", () => {
-            //     document.body.style.backgroundImage = "";
-            // });
-
             container.appendChild(movieCard);
         }
     }
@@ -88,7 +117,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     await displayMovies(user.viewed, viewedList, "removeViewed");
 });
 
-// Remove Favorite
 async function removeFavorite(movieId) {
     await fetch("/api/auth/favorite", {
         method: "POST",
@@ -101,7 +129,6 @@ async function removeFavorite(movieId) {
     location.reload();
 }
 
-// Remove Watchlist
 async function removeWatchlist(movieId) {
     await fetch("/api/auth/watchlist", {
         method: "POST",
@@ -114,7 +141,6 @@ async function removeWatchlist(movieId) {
     location.reload();
 }
 
-// Remove Viewed
 async function removeViewed(movieId) {
     await fetch("/api/auth/viewed", {
         method: "POST",
@@ -127,7 +153,6 @@ async function removeViewed(movieId) {
     location.reload();
 }
 
-// ✅ Remove a movie from Viewed History
 async function removeViewedHistory(movieId) {
     try {
         const response = await fetch(`/api/auth/viewed/${movieId}`, {
@@ -142,7 +167,6 @@ async function removeViewedHistory(movieId) {
             throw new Error("Failed to remove movie");
         }
 
-        // ✅ Remove the movie card from the UI without full reload
         document.getElementById(`viewed-${movieId}`).remove();
 
     } catch (error) {
@@ -150,13 +174,8 @@ async function removeViewedHistory(movieId) {
     }
 }
 
-
-
-
-
-// JWT TOKEN VERIFY
 document.addEventListener("DOMContentLoaded", function () {
-    const token = localStorage.getItem("token"); // Retrieve JWT token
+    const token = localStorage.getItem("token");
 
     if (token) {
         document.getElementById("loginBtn").style.display = "none";
@@ -169,28 +188,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function logoutUser() {
     localStorage.removeItem("token");
-    window.location.reload(); // Refresh to update UI
+    window.location.reload(); 
 }
 
 function isTokenExpired(token) {
     try {
-        const decoded = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-        const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
-        return decoded.exp < currentTime; // Check if token is expired
+        const decoded = JSON.parse(atob(token.split(".")[1])); 
+        const currentTime = Math.floor(Date.now() / 1000); 
+        return decoded.exp < currentTime; 
     } catch (error) {
         console.error("Error decoding token:", error);
-        return true; // Assume expired if decoding fails
+        return true; 
     }
 }
 
-// Function to handle logout on token expiration
 function handleExpiredToken() {
     alert("Session expired. Please log in again.");
-    localStorage.removeItem("token"); // Remove token
-    window.location.href = "login.html"; // Redirect to login page
+    localStorage.removeItem("token"); 
+    window.location.href = "login.html";
 }
 
-// Check token expiration before making API requests
 function secureFetch(url, options = {}) {
     const token = localStorage.getItem("token");
 
@@ -199,14 +216,13 @@ function secureFetch(url, options = {}) {
         return Promise.reject("Token expired");
     }
 
-    // Attach Authorization header
     options.headers = {
         ...options.headers,
         Authorization: `Bearer ${token}`,
     };
 
     return fetch(url, options).then(response => {
-        if (response.status === 401) { // Handle unauthorized response
+        if (response.status === 401) { 
             handleExpiredToken();
             return Promise.reject("Unauthorized");
         }

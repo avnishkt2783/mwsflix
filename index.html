@@ -18,10 +18,9 @@
     <div class="navbar-container p-3 m-2">
         <nav class="navbar nav-items navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
-                    <img src="assets/mylogo.jpg" width="30" height="30"
-                        class="d-inline-block align-text-top rounded-circle">
-                    MWS-FLIX
+                <a class="navbar-brand p-2" href="index.html">
+                    <img src="assets/MWS-FLIX_white.png" height="35" class="d-inline-block align-text-top">
+                    <!-- MWS-FLIX -->
                 </a>
                 <div id="authButtons" class="d-flex align-items-center gap-2">
                     <button id="loginBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
@@ -40,10 +39,6 @@
         </nav>
     </div>
 
-
-
-
-
     <div class="d-flex justify-content-center mt-3">
         <div class="container p-3">
             <div class="search-container p-3 m-2 rounded-pill">
@@ -55,6 +50,7 @@
                     </button>
                 </div>
             </div>
+            <img src="assets/adblock.png" alt="adblock" style="width: 100%;">
         </div>
     </div>
 
@@ -103,72 +99,29 @@
                 <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
                     data-mdb-ripple-color="dark"><i class="bi bi-linkedin cloudflare-icons"></i></a>
 
-                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
-                    data-mdb-ripple-color="dark"><i class="bi bi-github cloudflare-icons"></i></a>
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1"
+                    href="https://github.com/avnishkt2783/mwsflix" role="button" data-mdb-ripple-color="dark"><i
+                        class="bi bi-github cloudflare-icons"></i></a>
             </section>
         </div>
         <div
             class="footer-container text-white text-decoration-none p-3 d-flex flex-wrap justify-content-center align-items-center gap-3">
-            <div class="p-2"> <img
-                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
-                    alt="TMDB Logo" style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
-            </div>
             <div class="p-2">
-                <img src="https://moviesapi.club/assets/images/logo.png" alt="TMDB Logo"
-                    style="height: 1.75rem; vertical-align: middle; filter: brightness(1000%);">
+                <a href="https://fmhy.net/">
+                    <img src="assets\fmhy_logo_text.png" alt="TMDB Logo"
+                        style="height: 2rem; vertical-align: middle; padding-top: 3px;">
+                </a>
             </div>
+            <div class="p-2"> <a href="https://www.themoviedb.org/">
+                    <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+                        alt="TMDB Logo" style="height: 1rem; vertical-align: middle;">
+                </a>
+            </div>
+
 
         </div>
     </footer>
 
-    <script>
-        async function getUserProfile() {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Not authenticated! Please log in.");
-                window.location.href = "login.html";
-                return;
-            }
-
-            try {
-                const response = await fetch("/api/auth/me", {
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    document.getElementById("username").innerText = data.username;
-                    document.getElementById("email").innerText = data.email;
-                } else {
-                    alert(data.message || "Failed to fetch user data");
-                    localStorage.removeItem("token");
-                    window.location.href = "login.html";
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Something went wrong!");
-            }
-        }
-        function logout() {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            alert("Logged out successfully!");
-            window.location.href = "login.html"; // Redirect to login page
-        }
-
-        document.getElementById("logoutBtn").addEventListener("click", logout);
-        function checkAuth() {
-            if (!localStorage.getItem("token")) {
-                alert("Please log in first!");
-                window.location.href = "login.html";
-            }
-        }
-
-        // Call `checkAuth()` on pages that require authentication.
-        // checkAuth();
-
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="index_script.js"></script>
 </body>

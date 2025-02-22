@@ -16,10 +16,9 @@
     <div class="navbar-container p-3 m-2">
         <nav class="navbar nav-items navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
-                    <img src="assets/mylogo.jpg" width="30" height="30"
-                        class="d-inline-block align-text-top rounded-circle">
-                    MWS-FLIX
+                <a class="navbar-brand p-2" href="index.html">
+                    <img src="assets/MWS-FLIX_white.png" height="35" class="d-inline-block align-text-top">
+                    <!-- MWS-FLIX -->
                 </a>
                 <div id="authButtons" class="d-flex align-items-center gap-2">
                     <button id="loginBtn" class="auth-btn btn rounded-pill text-white px-4 py-2"
@@ -39,11 +38,6 @@
     </div>
 
     <div class="backdrop-container" id="backdropContainer"></div>
-
-    <!-- <button id="shareMovie" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
-        title="Click to copy link!">
-        Share
-    </button> -->
 
     <div class="container mt-4">
         <div class="details-container">
@@ -84,7 +78,6 @@
             <p><strong>Rating:</strong> <span id="rating"></span> / 10</p>
             <p><strong>Production Companies:</strong> <span id="production"></span></p>
         </div>
-
 
         <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
@@ -135,217 +128,29 @@
                 <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
                     data-mdb-ripple-color="dark"><i class="bi bi-linkedin cloudflare-icons"></i></a>
 
-                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1" href="#!" role="button"
-                    data-mdb-ripple-color="dark"><i class="bi bi-github cloudflare-icons"></i></a>
+                <a class="btn btn-link btn-floating btn-lg text-white text-decoration-none m-1"
+                    href="https://github.com/avnishkt2783/mwsflix" role="button" data-mdb-ripple-color="dark"><i
+                        class="bi bi-github cloudflare-icons"></i></a>
             </section>
         </div>
         <div
             class="footer-container text-white text-decoration-none p-3 d-flex flex-wrap justify-content-center align-items-center gap-3">
-            <div class="p-2"> <img
-                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
-                    alt="TMDB Logo" style="height: 1rem; vertical-align: middle; filter: invert(1) brightness(1000%);">
-            </div>
             <div class="p-2">
-                <img src="https://moviesapi.club/assets/images/logo.png" alt="TMDB Logo"
-                    style="height: 1.75rem; vertical-align: middle; filter: brightness(1000%);">
+                <a href="https://fmhy.net/">
+                    <img src="assets\fmhy_logo_text.png" alt="TMDB Logo"
+                        style="height: 2rem; vertical-align: middle; padding-top: 3px;">
+                </a>
             </div>
+            <div class="p-2"> <a href="https://www.themoviedb.org/">
+                    <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+                        alt="TMDB Logo" style="height: 1rem; vertical-align: middle;">
+                </a>
+            </div>
+
 
         </div>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const movieId = new URLSearchParams(window.location.search).get("id");
-            const favoriteBtn = document.getElementById("favorite-btn");
-            const watchlistBtn = document.getElementById("watchlist-btn");
-            const shareBtn = document.getElementById("share-btn");
-            const play_btn = document.getElementById("play-btn");
-            const token = localStorage.getItem("token");
-
-            if (!favoriteBtn || !watchlistBtn || !play_btn || !shareBtn) return; // Prevent errors if elements are missing
-
-            if (!token) {
-                favoriteBtn.disabled = true;
-                watchlistBtn.disabled = true;
-                shareBtn.disabled = true;
-                play_btn.disabled = true;
-                return;
-            }
-
-            // ✅ Fetch User's Data on Page Load
-            async function fetchUserData() {
-                try {
-                    const res = await fetch("https://mwsflix.onrender.com/api/auth/user", {
-                        method: "GET",
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
-                        },
-                    });
-
-                    if (!res.ok) return;
-                    const user = await res.json();
-
-                    // Toggle heart icon based on favorites
-                    if (user.favorites.includes(movieId)) {
-                        favoriteBtn.firstElementChild.classList.replace("bi-heart", "bi-heart-fill");
-                    }
-
-                    // Toggle bookmark icon based on watchlist
-                    if (user.watchlist.includes(movieId)) {
-                        watchlistBtn.firstElementChild.classList.replace("bi-bookmark", "bi-bookmark-fill");
-                    }
-                } catch (error) {
-                    console.error("Error fetching user:", error);
-                }
-            }
-
-            await fetchUserData();
-
-            // ✅ Toggle Favorite
-            favoriteBtn.addEventListener("click", async () => {
-                try {
-                    const res = await fetch("https://mwsflix.onrender.com/api/auth/favorite", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ movieId }),
-                    });
-
-                    if (res.ok) {
-                        const data = await res.json();
-                        const icon = favoriteBtn.firstElementChild;
-                        if (data.favorites.includes(movieId)) {
-                            icon.classList.replace("bi-heart", "bi-heart-fill");
-                        } else {
-                            icon.classList.replace("bi-heart-fill", "bi-heart");
-                        }
-                    }
-                } catch (error) {
-                    console.error("Error updating favorites:", error);
-                }
-            });
-
-            // ✅ Toggle Watchlist
-            watchlistBtn.addEventListener("click", async () => {
-                try {
-                    const res = await fetch("https://mwsflix.onrender.com/api/auth/watchlist", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ movieId }),
-                    });
-
-                    if (res.ok) {
-                        const data = await res.json();
-                        const icon = watchlistBtn.firstElementChild;
-                        if (data.watchlist.includes(movieId)) {
-                            icon.classList.replace("bi-bookmark", "bi-bookmark-fill");
-                        } else {
-                            icon.classList.replace("bi-bookmark-fill", "bi-bookmark");
-                        }
-                    }
-                } catch (error) {
-                    console.error("Error updating watchlist:", error);
-                }
-            });
-
-            // ✅ Save to Viewed History when playing
-            play_btn.addEventListener("click", async () => {
-                try {
-                    const res = await fetch("https://mwsflix.onrender.com/api/auth/viewed", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ movieId }),
-                    });
-
-                    if (res.ok) {
-                        console.log("Movie added to viewed history");
-                    }
-                } catch (error) {
-                    console.error("Error adding to viewed history:", error);
-                }
-            });
-
-            // // ✅ Share Button
-            // shareBtn.addEventListener("click", async () => {
-            //     const movieLink = window.location.href;
-            //     try {
-            //         await navigator.clipboard.writeText(movieLink);
-            //         alert("✅ Link copied to clipboard!");
-            //     } catch (err) {
-            //         alert("❌ Failed to copy link. Try manually copying.");
-            //     }
-            // });
-
-            // ✅ Share Button
-            shareBtn.addEventListener("click", async () => {
-                const movieLink = window.location.href;
-                const movieTitle = document.title; // Get the page title as the movie title
-
-                if (navigator.share) {
-                    try {
-                        await navigator.share({
-                            title: movieTitle,
-                            text: `Check out this movie: ${movieTitle}`,
-                            url: movieLink,
-                        });
-                        console.log("✅ Movie link shared successfully!");
-                    } catch (err) {
-                        console.error("❌ Error sharing:", err);
-                    }
-                } else {
-                    try {
-                        await navigator.clipboard.writeText(movieLink);
-                        alert("✅ Link copied to clipboard!");
-                    } catch (err) {
-                        alert("❌ Failed to copy link. Try manually copying.");
-                    }
-                }
-            });
-
-        });
-
-        // document.getElementById("shareMovie").addEventListener("click", function () {
-        //     const movieId = new URLSearchParams(window.location.search).get("id");
-        //     const shareLink = `${window.location.origin}/details.html?id=${movieId}`;
-
-        //     navigator.clipboard.writeText(shareLink).then(() => {
-        //         this.setAttribute("title", "Copied!");
-        //         new bootstrap.Tooltip(this).show();
-        //         setTimeout(() => this.setAttribute("title", "Click to copy link!"), 2000);
-        //     }).catch(err => {
-        //         console.error("Failed to copy:", err);
-        //     });
-        // });
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const token = localStorage.getItem("token"); // Retrieve JWT token
-
-            if (token) {
-                document.getElementById("loginBtn").style.display = "none";
-                document.getElementById("registerBtn").style.display = "none";
-                document.getElementById("logoutBtn").style.display = "block";
-            } else {
-                document.getElementById("logoutBtn").style.display = "none";
-            }
-        });
-
-        function logoutUser() {
-            localStorage.removeItem("token");
-            window.location.reload(); // Refresh to update UI
-        }
-
-
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="details_script.js"></script>
 </body>

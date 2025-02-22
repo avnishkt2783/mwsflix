@@ -1,0 +1,149 @@
+body {
+    background: url("/assets/content_bg.webp") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/assets/content_bg.webp") no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: -1;
+}
+
+
+body {
+    --sb-track-color: rgba(0, 0, 0, 0);
+    --sb-thumb-color: rgba(255, 255, 255, 0.5);
+    --sb-size: 0.5rem;
+}
+
+body::-webkit-scrollbar {
+    width: var(--sb-size)
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 1.5rem;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 1.5rem;
+
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    body {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    }
+}
+
+.navbar-container,
+.nav-items,
+.footer-icons,
+.footer-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    text-align: center;
+}
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    border-radius: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.auth-input {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 1.5rem;
+}
+
+.auth-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    box-shadow: none;
+}
+
+.auth-btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    text-align: center;
+}
+
+.auth-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bi {
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+}
+
+.bi:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons {
+    color: #ababab;
+    box-shadow: #ababab;
+}
+
+.cloudflare-icons:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search:hover {
+    color: #ffffff;
+}

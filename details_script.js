@@ -4,6 +4,164 @@ const movieId = urlParams.get("id");
 let backdropIndex = 0;
 let backdropImages = [];
 
+document.addEventListener("DOMContentLoaded", async () => {
+    const movieId = new URLSearchParams(window.location.search).get("id");
+    const favoriteBtn = document.getElementById("favorite-btn");
+    const watchlistBtn = document.getElementById("watchlist-btn");
+    const shareBtn = document.getElementById("share-btn");
+    const play_btn = document.getElementById("play-btn");
+    const token = localStorage.getItem("token");
+
+    if (!favoriteBtn || !watchlistBtn || !play_btn || !shareBtn) return;
+
+    if (!token) {
+        favoriteBtn.disabled = true;
+        watchlistBtn.disabled = true;
+        shareBtn.disabled = true;
+        play_btn.disabled = true;
+        return;
+    }
+
+    async function fetchUserData() {
+        try {
+            const res = await fetch("https://mwsflix.onrender.com/api/auth/user", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) return;
+            const user = await res.json();
+
+            if (user.favorites.includes(movieId)) {
+                favoriteBtn.firstElementChild.classList.replace("bi-heart", "bi-heart-fill");
+            }
+
+            if (user.watchlist.includes(movieId)) {
+                watchlistBtn.firstElementChild.classList.replace("bi-bookmark", "bi-bookmark-fill");
+            }
+        } catch (error) {
+            console.error("Error fetching user:", error);
+        }
+    }
+
+    await fetchUserData();
+
+    favoriteBtn.addEventListener("click", async () => {
+        try {
+            const res = await fetch("https://mwsflix.onrender.com/api/auth/favorite", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                const icon = favoriteBtn.firstElementChild;
+                if (data.favorites.includes(movieId)) {
+                    icon.classList.replace("bi-heart", "bi-heart-fill");
+                } else {
+                    icon.classList.replace("bi-heart-fill", "bi-heart");
+                }
+            }
+        } catch (error) {
+            console.error("Error updating favorites:", error);
+        }
+    });
+
+    watchlistBtn.addEventListener("click", async () => {
+        try {
+            const res = await fetch("https://mwsflix.onrender.com/api/auth/watchlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                const icon = watchlistBtn.firstElementChild;
+                if (data.watchlist.includes(movieId)) {
+                    icon.classList.replace("bi-bookmark", "bi-bookmark-fill");
+                } else {
+                    icon.classList.replace("bi-bookmark-fill", "bi-bookmark");
+                }
+            }
+        } catch (error) {
+            console.error("Error updating watchlist:", error);
+        }
+    });
+
+    play_btn.addEventListener("click", async () => {
+        try {
+            const res = await fetch("https://mwsflix.onrender.com/api/auth/viewed", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ movieId }),
+            });
+
+            if (res.ok) {
+                console.log("Movie added to viewed history");
+            }
+        } catch (error) {
+            console.error("Error adding to viewed history:", error);
+        }
+    });
+
+    shareBtn.addEventListener("click", async () => {
+        const movieLink = window.location.href;
+        const movieTitle = document.title;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: movieTitle,
+                    text: `Check out this movie: ${movieTitle}`,
+                    url: movieLink,
+                });
+                console.log("✅ Movie link shared successfully!");
+            } catch (err) {
+                console.error("❌ Error sharing:", err);
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(movieLink);
+                alert("✅ Link copied to clipboard!");
+            } catch (err) {
+                alert("❌ Failed to copy link. Try manually copying.");
+            }
+        }
+    });
+
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("registerBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "block";
+    } else {
+        document.getElementById("logoutBtn").style.display = "none";
+    }
+});
+
+function logoutUser() {
+    localStorage.removeItem("token");
+    window.location.reload();
+}
+
 async function fetchMovieDetails() {
     if (!movieId) {
         document.body.innerHTML = "<h2 style='color: white; text-align: center;'>Invalid Movie ID</h2>";
@@ -102,7 +260,6 @@ function displayCast(cast) {
     castContainer.innerHTML = gridContainer;
 }
 
-
 function displayRecommendations(recommendations) {
     const recommendationsContainer = document.getElementById("flush-collapseTwo");
     recommendationsContainer.innerHTML = "";
@@ -136,29 +293,25 @@ function displayRecommendations(recommendations) {
     recommendationsContainer.innerHTML = gridContainer;
 }
 
-
 fetchMovieDetails();
-
 
 function isTokenExpired(token) {
     try {
-        const decoded = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-        const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
-        return decoded.exp < currentTime; // Check if token is expired
+        const decoded = JSON.parse(atob(token.split(".")[1])); 
+        const currentTime = Math.floor(Date.now() / 1000); 
+        return decoded.exp < currentTime; 
     } catch (error) {
         console.error("Error decoding token:", error);
-        return true; // Assume expired if decoding fails
+        return true; 
     }
 }
 
-// Function to handle logout on token expiration
 function handleExpiredToken() {
     alert("Session expired. Please log in again.");
-    localStorage.removeItem("token"); // Remove token
-    window.location.href = "login.html"; // Redirect to login page
+    localStorage.removeItem("token"); 
+    window.location.href = "login.html"; 
 }
 
-// Check token expiration before making API requests
 function secureFetch(url, options = {}) {
     const token = localStorage.getItem("token");
 
@@ -167,14 +320,13 @@ function secureFetch(url, options = {}) {
         return Promise.reject("Token expired");
     }
 
-    // Attach Authorization header
     options.headers = {
         ...options.headers,
         Authorization: `Bearer ${token}`,
     };
 
     return fetch(url, options).then(response => {
-        if (response.status === 401) { // Handle unauthorized response
+        if (response.status === 401) { 
             handleExpiredToken();
             return Promise.reject("Unauthorized");
         }
