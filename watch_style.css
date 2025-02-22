@@ -7,8 +7,10 @@ html {
     margin: 0;
     padding: 0;
     /* width: 100%; */
-    /* height: 100%; */
-    overflow: hidden;
+    height: 100%;
+    /* overflow: hidden; */
+    overflow-x: hidden; /* Keeps horizontal scrolling disabled */
+    overflow-y: auto; /* Allows vertical scrolling */
     background-color: black;
     font-family: Arial, sans-serif;
     --sb-track-color: rgba(0, 0, 0, 0);
@@ -175,7 +177,10 @@ select::-webkit-scrollbar-thumb {
 }
 
 .navbar-container,
-.nav-items{
+.nav-items,
+.footer-icons,
+.footer-container,
+.movie_player {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 1.5rem;
@@ -188,4 +193,31 @@ select::-webkit-scrollbar-thumb {
 }
 .exit-btn:hover{ 
     background: rgba(255, 0, 0, 0.6);
+}
+
+
+.bi {
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+}
+
+.bi:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons {
+    color: #ababab;
+    box-shadow: #ababab;
+}
+
+.cloudflare-icons:hover {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search {
+    color: #ffffff;
+}
+
+.cloudflare-icons-search:hover {
+    color: #ffffff;
 }
