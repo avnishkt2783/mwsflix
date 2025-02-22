@@ -221,3 +221,11 @@ select::-webkit-scrollbar-thumb {
 .cloudflare-icons-search:hover {
     color: #ffffff;
 }
+
+#warningPara {
+    font-size: 1rem;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+}

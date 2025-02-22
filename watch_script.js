@@ -5,8 +5,16 @@ let movieName = urlParams.get("title");
 movieName = movieName ? decodeURIComponent(movieName.replace(/\+/g, " ")) : "Unknown Movie";
 
 document.title = `Watch - ${movieName}`;
-// document.getElementById("exitPlayer").href = `http://127.0.0.1:5500//details.html?id=${movieId}`;
 document.getElementById("exitPlayer").href = `https://mwsflix.onrender.com/details.html?id=${movieId}`;
+
+document.addEventListener("DOMContentLoaded", function () {
+    let popupElement = document.getElementById('warningPopup');
+    let warningPopup = new bootstrap.Modal(popupElement);
+
+    document.getElementById('openWarningPopup').addEventListener('click', function () {
+        warningPopup.show();
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     const sources = [

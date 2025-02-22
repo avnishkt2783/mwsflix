@@ -31,6 +31,50 @@
         </nav>
     </div>
 
+    <div class="container px-3">
+        <div class="text-center my-3">
+            <button id="openWarningPopup" class="btn btn-outline-warning rounded-pill px-4 py-2"
+                style="border-radius: 1.5rem; width: 100%;">
+                ⚠️ Important Notice [Must Read]
+            </button>
+        </div>
+    </div>
+
+    <div id="warningPopup" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+        style="backdrop-filter: blur(20px);">
+        <div class="modal-dialog modal-dialog-centered border-danger">
+            <div class="modal-content text-white"
+                style="background-color: rgba(0, 0, 0, 0.2); border: 2px solid #ffc107; border-radius: 1.5rem;">
+
+                <div class="modal-header border-dark">
+                    <h5 class="modal-title">⚠️ Important Notice [Must Read]</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body text-center border-dark">
+                    <p>Servers may show redirects/popups. <strong>Close them immediately.</strong></p>
+                    <hr>
+                    <p>For a better experience, use an <strong>Ad blocker</strong> to avoid interruptions.</p>
+                    <hr>
+                    <p>Please wait while the movie loads. This may take a few moments.</p>
+                    <hr>
+                    <p>If the movie doesn’t play, try switching servers or try later.</p>
+                    <hr>
+                    <p>Video can be in <strong>SD/HD Quality</strong> or <strong>Hall-Cam Recorded.</strong></p>
+                    <hr>
+                    <p>If the movie is released on an OTT. Even then you may find Hall-Cam Recorded on some servers, but
+                        SD/HD Quality will also be available. You just need to go through servers.</p>
+                </div>
+
+                <div class="modal-footer border-dark">
+                    <button class="btn btn-success rounded-pill" data-bs-dismiss="modal">Got It!</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div id="container" class="movie_player p-3 m-3">
         <div id="sidebar" class="text-center p-4">
             <h3 class="mb-3">20+ Servers</h3>
@@ -84,6 +128,8 @@
 
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="watch_script.js"></script>
 
 </body>
