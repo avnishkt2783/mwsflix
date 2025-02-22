@@ -37,14 +37,14 @@ async function getUserProfile() {
 function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    alert("Logged out successfully!");
+    // alert("Logged out successfully!");
     window.location.href = "login.html";
 }
 
 document.getElementById("logoutBtn").addEventListener("click", logout);
 function checkAuth() {
     if (!localStorage.getItem("token")) {
-        alert("Please log in first!");
+        // alert("Please log in first!");
         window.location.href = "login.html";
     }
 }
